@@ -1,0 +1,456 @@
+pdf-equilibrist (0.1.25-1~noble1) noble; urgency=medium
+
+  * New upstream release: local OCR that works offline on every channel.
+    - OCR is now RapidOCR + ONNX Runtime with the recognition models
+      shipped inside the package (about 30 MB): nothing is downloaded at
+      first use, and OCR never opens a network connection. It replaces the
+      previous engine.
+    - OCR -> Word now keeps the recognised text (it used to export the
+      scanned image only), and OCR -> Excel rebuilds a scanned table from
+      the position of the recognised text.
+    - Cancelling an OCR is now clean: the document is left untouched
+      instead of the worker thread being killed mid-operation.
+    - New `--ocr-selftest` command-line check, run at package build time.
+    - Documentation: security analysis and architecture brought up to date
+      (Linux channels, network behaviour, bundled OCR models).
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Sun, 11 Oct 2026 12:00:00 +0000
+
+pdf-equilibrist (0.1.25-1~resolute1) resolute; urgency=medium
+
+  * New upstream release: local OCR that works offline on every channel.
+    - OCR is now RapidOCR + ONNX Runtime with the recognition models
+      shipped inside the package (about 30 MB): nothing is downloaded at
+      first use, and OCR never opens a network connection. It replaces the
+      previous engine.
+    - OCR -> Word now keeps the recognised text (it used to export the
+      scanned image only), and OCR -> Excel rebuilds a scanned table from
+      the position of the recognised text.
+    - Cancelling an OCR is now clean: the document is left untouched
+      instead of the worker thread being killed mid-operation.
+    - New `--ocr-selftest` command-line check, run at package build time.
+    - Documentation: security analysis and architecture brought up to date
+      (Linux channels, network behaviour, bundled OCR models).
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Sun, 11 Oct 2026 12:00:00 +0000
+
+pdf-equilibrist (0.1.24-1~noble1) noble; urgency=medium
+
+  * New upstream release: user control over every network connection.
+    - Every outbound request (api.github.com, api.osv.dev) now goes through
+      a single gate: Help > Internet connections > Block all Internet
+      connections stops them before they are sent.
+    - The startup update check is now off by default on Linux: updates are
+      the package manager's job. It can be re-enabled in the same menu, and
+      the manual check stays available in the Help menu.
+    - Every connection is announced on screen, naming the service contacted.
+    - Web links inside a PDF now ask for confirmation, showing the full URL.
+    - CVE check: when offline, packages that could not be checked are no
+      longer reported as having no known vulnerability.
+    - English translation: new strings, plus 14 thumbnail-panel strings that
+      had never been translated.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Tue, 22 Sep 2026 20:40:40 +0000
+
+pdf-equilibrist (0.1.24-1~resolute1) resolute; urgency=medium
+
+  * New upstream release: user control over every network connection.
+    - Every outbound request (api.github.com, api.osv.dev) now goes through
+      a single gate: Help > Internet connections > Block all Internet
+      connections stops them before they are sent.
+    - The startup update check is now off by default on Linux: updates are
+      the package manager's job. It can be re-enabled in the same menu, and
+      the manual check stays available in the Help menu.
+    - Every connection is announced on screen, naming the service contacted.
+    - Web links inside a PDF now ask for confirmation, showing the full URL.
+    - CVE check: when offline, packages that could not be checked are no
+      longer reported as having no known vulnerability.
+    - English translation: new strings, plus 14 thumbnail-panel strings that
+      had never been translated.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Tue, 22 Sep 2026 20:40:40 +0000
+
+pdf-equilibrist (0.1.23-1~noble1) noble; urgency=medium
+
+  * No application code change. Version bump to get a fresh .orig.tar.gz
+    filename after 0.1.22's got poisoned by a real build-script bug
+    (packaging/ppa/debian/ was leaking into the orig tarball, so every
+    changelog edit silently changed its bytes — fixed in this release).
+    Both series now use a per-series revision suffix (~noble1/~resolute1)
+    from the start, the standard Debian/Ubuntu convention for publishing
+    one upstream version to multiple series in the same PPA — avoids the
+    debian.tar.xz filename collision hit on 0.1.22 for good.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Thu, 17 Sep 2026 19:40:31 +0000
+
+pdf-equilibrist (0.1.23-1~resolute1) resolute; urgency=medium
+
+  * No application code change. Version bump to get a fresh .orig.tar.gz
+    filename after 0.1.22's got poisoned by a real build-script bug
+    (packaging/ppa/debian/ was leaking into the orig tarball, so every
+    changelog edit silently changed its bytes — fixed in this release).
+    Both series now use a per-series revision suffix (~noble1/~resolute1)
+    from the start, the standard Debian/Ubuntu convention for publishing
+    one upstream version to multiple series in the same PPA — avoids the
+    debian.tar.xz filename collision hit on 0.1.22 for good.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Thu, 17 Sep 2026 19:40:31 +0000
+
+pdf-equilibrist (0.1.22-1~resolute1) resolute; urgency=medium
+
+  * No application code change. Adds a series-specific revision suffix
+    (~resolute1) for this series only — noble keeps plain 0.1.22-1
+    unchanged, already accepted and Pending on Launchpad.
+
+    Root cause found via Launchpad's own rejection email: debian.tar.xz's
+    filename only encodes <version>-<revision>, not the series, but its
+    *content* legitimately differs per series (the trimmed top changelog
+    entry names a different series each time). Using the identical
+    revision (-1) for both noble and resolute meant the second upload
+    always collided with the first under the same filename but different
+    bytes — the exact same class of error as the earlier orig.tar.gz
+    lock, just one file further down the upload. orig.tar.gz itself is
+    unaffected: its filename only encodes the upstream version (0.1.22,
+    no revision), and it's genuinely byte-identical between series since
+    the reproducible-tarball fix, so it doesn't need a per-series suffix.
+    This is the standard Debian/Ubuntu convention for publishing one
+    upstream version to multiple series in the same PPA.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Thu, 17 Sep 2026 19:21:26 +0000
+
+pdf-equilibrist (0.1.22-1) noble; urgency=medium
+
+  * No application code change. Version bump only, to get a fresh
+    .orig.tar.gz filename: Launchpad had locked pdf-equilibrist_0.1.21
+    .orig.tar.gz to the bytes of the first (non-reproducible) build,
+    rejecting every retry with "already exists ... different contents".
+    This release also fixes the orig.tar.gz build itself to be byte
+    -reproducible across CI runs and switches the PPA upload from FTP to
+    SFTP.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Thu, 17 Sep 2026 18:48:15 +0000
+
+pdf-equilibrist (0.1.22-1) resolute; urgency=medium
+
+  * No application code change. Version bump only, to get a fresh
+    .orig.tar.gz filename: Launchpad had locked pdf-equilibrist_0.1.21
+    .orig.tar.gz to the bytes of the first (non-reproducible) build,
+    rejecting every retry with "already exists ... different contents".
+    This release also fixes the orig.tar.gz build itself to be byte
+    -reproducible across CI runs and switches the PPA upload from FTP to
+    SFTP.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Thu, 17 Sep 2026 18:48:15 +0000
+
+pdf-equilibrist (0.1.21-1) noble; urgency=medium
+
+  * Fix: QFileDialog.getSaveFileName doesn't reliably append the selected
+    filter's extension on Linux the way the native Windows dialog does —
+    confirmed on Arch, saved files with no extension when the user didn't
+    type it. Affected every Save dialog in the app (export, OCR, compress,
+    encrypt, merge, extract — 14 call sites), not just page extraction.
+    Now enforced via a shared ensure_suffix() helper.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Thu, 17 Sep 2026 17:36:16 +0000
+
+pdf-equilibrist (0.1.21-1) resolute; urgency=medium
+
+  * Fix: QFileDialog.getSaveFileName doesn't reliably append the selected
+    filter's extension on Linux the way the native Windows dialog does —
+    confirmed on Arch, saved files with no extension when the user didn't
+    type it. Affected every Save dialog in the app (export, OCR, compress,
+    encrypt, merge, extract — 14 call sites), not just page extraction.
+    Now enforced via a shared ensure_suffix() helper.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Thu, 17 Sep 2026 17:36:16 +0000
+
+pdf-equilibrist (0.1.20-2) noble; urgency=medium
+
+  * Version-sync only, no content change for this package. 0.1.20-1 was
+    accepted for noble but the resolute upload hit a Launchpad-side FTP
+    error ("550 ... internal server error") on the .dsc — bumped so both
+    series retry as fresh uploads (0.1.20-1 noble is already Pending and
+    immutable on Launchpad's side).
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Thu, 17 Sep 2026 17:26:31 +0000
+
+pdf-equilibrist (0.1.20-2) resolute; urgency=medium
+
+  * Version-sync only, no content change for this package. Retrying after
+    a Launchpad-side FTP error ("550 ... internal server error") on the
+    0.1.20-1 upload for this series.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Thu, 17 Sep 2026 17:26:31 +0000
+
+pdf-equilibrist (0.1.20-1) noble; urgency=medium
+
+  * UI: multi-selection support in the pages thumbnail panel (Ctrl/Shift-click)
+    — reorder, rotate, duplicate, delete, extract or print several pages at
+    once from the right-click menu.
+  * Security fix: cryptography was vendored unpinned in the wheelhouse and had
+    picked up 49.0.0, vulnerable to CVE-2026-69247 (Bleichenbacher oracle on
+    PKCS#7 EnvelopedData decryption, GHSA-g6cj-pr64-35w5). Pinned to >=50.0.0.
+  * Fix: debian/rules only patched src/pdf_equilibrist/__init__.py's
+    __version__ with the changelog version, not pyproject.toml — so pip's
+    installed-package metadata (read by the in-app CVE checker via
+    importlib.metadata) kept reporting 0.1.0 even though the About dialog
+    (which reads __version__) showed the correct version. Both are now
+    patched, matching the AUR PKGBUILD and COPR spec.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Thu, 17 Sep 2026 00:00:00 +0000
+
+pdf-equilibrist (0.1.20-1) resolute; urgency=medium
+
+  * UI: multi-selection support in the pages thumbnail panel (Ctrl/Shift-click)
+    — reorder, rotate, duplicate, delete, extract or print several pages at
+    once from the right-click menu.
+  * Security fix: cryptography was vendored unpinned in the wheelhouse and had
+    picked up 49.0.0, vulnerable to CVE-2026-69247 (Bleichenbacher oracle on
+    PKCS#7 EnvelopedData decryption, GHSA-g6cj-pr64-35w5). Pinned to >=50.0.0.
+  * Fix: debian/rules only patched src/pdf_equilibrist/__init__.py's
+    __version__ with the changelog version, not pyproject.toml — so pip's
+    installed-package metadata (read by the in-app CVE checker via
+    importlib.metadata) kept reporting 0.1.0 even though the About dialog
+    (which reads __version__) showed the correct version. Both are now
+    patched, matching the AUR PKGBUILD and COPR spec.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Thu, 17 Sep 2026 00:00:00 +0000
+
+pdf-equilibrist (0.1.19-1) noble; urgency=medium
+
+  * UI: the language switcher button in the title bar now shows the
+    current language (e.g. "🌐FR" / "🌐EN") instead of just a bare globe
+    icon, and is wider to fit it. Found via real user feedback on Reddit
+    (r/degoogle): a user installed the app and couldn't find any way to
+    change the language away from French, because the globe icon alone
+    gave no indication it was the language control.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Fri, 31 Jul 2026 02:00:00 +0000
+
+pdf-equilibrist (0.1.19-2) resolute; urgency=medium
+
+  * UI: the language switcher button in the title bar now shows the
+    current language (e.g. "🌐FR" / "🌐EN") instead of just a bare globe
+    icon, and is wider to fit it. Found via real user feedback on Reddit
+    (r/degoogle): a user installed the app and couldn't find any way to
+    change the language away from French, because the globe icon alone
+    gave no indication it was the language control.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Fri, 31 Jul 2026 02:00:00 +0000
+
+pdf-equilibrist (0.1.18-2) resolute; urgency=high
+
+  * Fix build: 0.1.16 and 0.1.17 never actually built on Launchpad (source
+    was accepted and shown "Published", masking that every binary build
+    failed — "ERROR: Could not find a version that satisfies the
+    requirement cffi"). Root cause: the .orig.tar.gz was built by curling
+    the GitHub tag archive, which does not include packaging/ppa/vendor/
+    (gitignored, per packaging/ppa/README.md) — so the wheelhouse
+    --find-links dirs were empty on the build farm. Fix is procedural
+    only (build the orig tarball from a local `cp -r` of the checkout,
+    as documented, not from the GitHub archive); no source change needed.
+    Version bumped only so this correction is a fresh upstream version
+    Launchpad will accept (it locks the orig tarball checksum per version
+    once any revision is accepted, so 0.1.17 itself could not be reused).
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Fri, 31 Jul 2026 00:30:00 +0000
+
+pdf-equilibrist (0.1.18-1) noble; urgency=high
+
+  * Fix build: 0.1.16 and 0.1.17 never actually built on Launchpad (source
+    was accepted and shown "Published", masking that every binary build
+    failed — "ERROR: Could not find a version that satisfies the
+    requirement cffi"). Root cause: the .orig.tar.gz was built by curling
+    the GitHub tag archive, which does not include packaging/ppa/vendor/
+    (gitignored, per packaging/ppa/README.md) — so the wheelhouse
+    --find-links dirs were empty on the build farm. Fix is procedural
+    only (build the orig tarball from a local `cp -r` of the checkout,
+    as documented, not from the GitHub archive); no source change needed.
+    Version bumped only so this correction is a fresh upstream version
+    Launchpad will accept (it locks the orig tarball checksum per version
+    once any revision is accepted, so 0.1.17 itself could not be reused).
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Fri, 31 Jul 2026 00:30:00 +0000
+
+pdf-equilibrist (0.1.17-2) resolute; urgency=low
+
+  * New upstream release, Windows-only fix (NSIS installer banner/header
+    image ordering bug) — no effect on this package. Bumped purely so the
+    in-app update checker (which only compares against the latest GitHub
+    tag, not per-channel availability) doesn't tell PPA users a newer
+    version exists that apt can't actually offer them.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Thu, 30 Jul 2026 23:30:00 +0000
+
+pdf-equilibrist (0.1.17-1) noble; urgency=low
+
+  * New upstream release, Windows-only fix (NSIS installer banner/header
+    image ordering bug) — no effect on this package. Bumped purely so the
+    in-app update checker (which only compares against the latest GitHub
+    tag, not per-channel availability) doesn't tell PPA users a newer
+    version exists that apt can't actually offer them.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Thu, 30 Jul 2026 23:30:00 +0000
+
+pdf-equilibrist (0.1.16-2) resolute; urgency=medium
+
+  * New upstream release: full English translation of the app UI (all
+    ribbon tabs, dialogs, menus, status bar), bilingual FR/EN NSIS
+    installer (Windows-only fix, no effect on this package — see 0.1.16-1).
+    Also fixes app translations (.qm) never being found on a system
+    package install: resource_path() only knew about assets/, not
+    translations/, so the app silently stayed French regardless of the
+    language picked. No dependency changes — same wheelhouse as 0.1.14.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Thu, 30 Jul 2026 23:00:00 +0000
+
+pdf-equilibrist (0.1.16-1) noble; urgency=medium
+
+  * New upstream release: full English translation of the app UI (all
+    ribbon tabs, dialogs, menus, status bar). Fixes app translations
+    (.qm) never being found on a system package install: resource_path()
+    only knew about assets/, not translations/, so the app silently
+    stayed French regardless of the language picked (found testing this
+    exact PPA/COPR/AUR install path). No dependency changes — same
+    wheelhouse as 0.1.14.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Thu, 30 Jul 2026 23:00:00 +0000
+
+pdf-equilibrist (0.1.14-6) resolute; urgency=high
+
+  * Security: strip pip from the shipped venv (CVE-2026-3219, CVE-2026-6357,
+    CVE-2026-8643, CVE-2025-8869, CVE-2026-1703). The app never invokes pip
+    at runtime — python3 -m venv bootstraps it via ensurepip from whatever
+    version is frozen in the build chroot's system Python, which was never
+    upgraded. Removed after the last pip install step in override_dh_auto_build
+    rather than chasing every future pip CVE with a version bump.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Thu, 30 Jul 2026 21:00:00 +0000
+
+pdf-equilibrist (0.1.14-5) noble; urgency=high
+
+  * Security: strip pip from the shipped venv (CVE-2026-3219, CVE-2026-6357,
+    CVE-2026-8643, CVE-2025-8869, CVE-2026-1703). The app never invokes pip
+    at runtime — python3 -m venv bootstraps it via ensurepip from whatever
+    version is frozen in the build chroot's system Python, which was never
+    upgraded. Removed after the last pip install step in override_dh_auto_build
+    rather than chasing every future pip CVE with a version bump.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Thu, 30 Jul 2026 21:00:00 +0000
+
+pdf-equilibrist (0.1.14-4) resolute; urgency=medium
+
+  * Fix FAILEDTOBUILD on the previous resolute upload (-3): the
+    --find-links dual-wheelhouse pip resolution worked exactly as
+    designed (all 22 version-locked deps correctly resolved to their
+    cp314 wheels), but installing our own package failed with
+    "BackendUnavailable: Cannot import 'setuptools.build_meta'" —
+    python3-setuptools/python3-wheel were never listed in
+    debian/control's Build-Depends; noble's chroot happened to already
+    have them, resolute's fresh chroot did not. Added explicitly.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Tue, 28 Jul 2026 21:45:00 +0000
+
+pdf-equilibrist (0.1.14-3) resolute; urgency=medium
+
+  * Build for Ubuntu 26.04 LTS (resolute) — Python 3.14. Six wheelhouse
+    wheels are version-locked C extensions (cffi, charset_normalizer,
+    fonttools, lxml, numpy, pillow) and were regenerated for cp314 via
+    cross-platform `pip download`; the other 17 are py3-generic or abi3
+    and reused unchanged from the noble wheelhouse.
+    NOTE: this revision FAILEDTOBUILD, see -4 for the fix.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Tue, 28 Jul 2026 20:15:00 +0000
+
+pdf-equilibrist (0.1.14-2) oracular; urgency=medium
+
+  * Rebuild for Ubuntu 24.10 (oracular) ahead of noble's eventual EOL — same
+    Python 3.12 ABI as noble, no source or wheelhouse changes needed.
+    NOTE: oracular reached end-of-life 2025-07-10, this upload was a
+    mistake (not checked before building) and was likely rejected by
+    Launchpad since the series is archived — do not repeat for
+    non-LTS/EOL series without checking support status first. Plucky
+    (25.04) is also already EOL (2026-01-17) and should not be targeted
+    either. Only LTS series (noble, resolute, and future LTS releases)
+    are worth the ongoing multi-series maintenance effort.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Mon, 27 Jul 2026 21:00:00 +0000
+
+pdf-equilibrist (0.1.14-1) noble; urgency=medium
+
+  * Fix CVE checker on frozen builds: the purelib-scoped dependency scan
+    (added to avoid --system-site-packages noise on Linux venv packages)
+    broke Windows' PyInstaller exe, which bundles dist-info metadata next
+    to the executable rather than under a Lib/site-packages tree. Frozen
+    builds now fall back to the unrestricted scan; this Linux package was
+    never affected (it never took the frozen code path).
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Sun, 26 Jul 2026 22:30:00 +0000
+
+pdf-equilibrist (0.1.13-3) noble; urgency=medium
+
+  * Add debian/source/include-binaries for the two app-icon PNGs — the
+    "3.0 (quilt)" source format refuses any binary file under debian/
+    unless explicitly whitelisted there.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Sun, 26 Jul 2026 15:40:00 +0000
+
+pdf-equilibrist (0.1.13-2) noble; urgency=medium
+
+  * Fix debian/rules: clean up debian/venv-build on `dh_auto_clean` — left
+    in place, it made `dpkg-source -b` (needed for the real Launchpad
+    source-only upload) refuse the package ("unwanted binary file") on
+    every leftover .so/.pyc from a prior local build.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Sun, 26 Jul 2026 15:35:00 +0000
+
+pdf-equilibrist (0.1.13-1) noble; urgency=medium
+
+  * Explicitly declare the .desktop file id via QApplication.setDesktopFileName()
+    (detected at runtime: "pdf-equilibrist" for PPA, "io.github.BitScripts.PDFEquilibrist"
+    for AUR) — under GNOME/Wayland, the dock doesn't reliably match a window
+    to its .desktop entry via WM_CLASS/process name alone, unlike KDE.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Sun, 26 Jul 2026 15:20:00 +0000
+
+pdf-equilibrist (0.1.12-4) noble; urgency=medium
+
+  * Install the app icon under /usr/share/icons/hicolor/<size>/apps/
+    instead of the legacy /usr/share/pixmaps/ fallback — the GNOME/Ubuntu
+    dock resolves dock/taskbar icons poorly from pixmaps alone. Same
+    approach already used by the AUR package.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Sun, 26 Jul 2026 15:10:00 +0000
+
+pdf-equilibrist (0.1.12-3) noble; urgency=medium
+
+  * Fix debian/rules: install the launcher/.desktop from debian/ (the
+    directory actually used for this build), not packaging/ppa/debian/
+    (a stale copy frozen inside the upstream source tarball) — the -2
+    launcher fix never actually took effect because of this.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Sun, 26 Jul 2026 15:00:00 +0000
+
+pdf-equilibrist (0.1.12-2) noble; urgency=medium
+
+  * Fix launcher: exec the venv's own pip-generated entry-point script
+    instead of `python3 -m pdf_equilibrist.main` — the latter made the
+    process (and its WM_CLASS) show up as "python3", breaking the
+    taskbar/dock icon association with the .desktop file.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Sun, 26 Jul 2026 14:45:00 +0000
+
+pdf-equilibrist (0.1.12-1) noble; urgency=medium
+
+  * Fix update checker: bundled venv now injects __version__ correctly,
+    and offers the apt upgrade command instead of the Windows installer.
+  * Fix CVE scanner scope: only the app's own dependencies, not every
+    package visible via --system-site-packages.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Sun, 26 Jul 2026 14:30:00 +0000
+
+pdf-equilibrist (0.1.11-1) noble; urgency=medium
+
+  * Initial release.
+
+ -- Paul Woisard <paulwoisard@gmail.com>  Sun, 26 Jul 2026 10:00:00 +0000

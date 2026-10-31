@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Contrôles (lint, Bandit, tests)
+    uses: ./.github/workflows/checks.yml
+
+  build:
+    name: Build installer
+    needs: test
+    env:
+      PYTHONUTF8: '1'
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        python: [3.12]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller pytest
+
+      - name: Prepare build assets
+        run: |
+          python tools/prepare_build.py
+
+      - name: Build PyInstaller bundle
+        run: |
+          pyinstaller PDF-Equilibrist.spec
+
+      - name: Vérifier l'OCR de l'exécutable figé (modèles embarqués, réseau interdit)
+        shell: pwsh
+        run: |
+          $report = Join-Path $env:RUNNER_TEMP 'ocr-selftest.txt'
+          $p = Start-Process -FilePath 'dist\PDF-Equilibrist\PDF-Equilibrist.exe' `
+                 -ArgumentList '--ocr-selftest', $report -Wait -PassThru
+          if (Test-Path $report) { Get-Content $report }
+          if ($p.ExitCode -ne 0) { throw "OCR embarqué KO dans l'exécutable (code $($p.ExitCode))" }
+
+      - name: Install NSIS (Chocolatey)
+        run: |
+          choco install nsis -y
+
+      - name: Build NSIS installer
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path installer\Output -Force
+          & 'C:\Program Files (x86)\NSIS\makensis.exe' 'installer\PDF-Equilibrist.nsi'
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdf-equilibrist-installer
+          path: |
+            dist\PDF-Equilibrist
+            installer\Output\PDF-Equilibrist-Setup.exe

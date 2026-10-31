@@ -1,0 +1,147 @@
+#!/usr/bin/make -f
+
+PACKAGE := pdf-equilibrist
+PKGROOT := debian/$(PACKAGE)
+VENV := $(PKGROOT)/usr/lib/$(PACKAGE)/venv
+WHEELHOUSE := packaging/ppa/vendor/wheelhouse
+# cffi/charset_normalizer/fonttools/lxml/numpy/pillow sont des wheels C
+# liées à la version de CPython (contrairement aux 17 autres, py3-generic
+# ou abi3) — chaque série Ubuntu avec un Python différent (noble=3.12,
+# resolute=3.14…) a besoin de sa propre variante. Plutôt qu'une condition
+# sur la série dans ce Makefile, les deux dossiers sont toujours passés en
+# --find-links à pip (voir override_dh_auto_build) : pip choisit tout seul
+# le wheel dont l'ABI correspond à l'interpréteur système du chroot de
+# build — aucune branche conditionnelle nécessaire ici.
+WHEELHOUSE_VERSIONED := packaging/ppa/vendor/wheelhouse-resolute
+
+export PYBUILD_NAME=pdf_equilibrist
+
+%:
+	dh $@
+
+# dh_clean standard ne connaît pas ce dossier custom : sans ce nettoyage,
+# un `dpkg-source -b` ultérieur (upload source pour Launchpad) refuse le
+# paquet ("unwanted binary file", des centaines de .so/.pyc dans le venv
+# de build restés là depuis un précédent `debian/rules build`).
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rf debian/venv-build
+
+# Les builders Launchpad n'ont pas d'accès réseau (contrairement à makepkg/AUR) :
+# les dépendances non empaquetées pour Ubuntu (pdf2docx, pdfplumber, python-pptx
+# et leurs propres sous-dépendances) sont installées hors-ligne depuis le
+# wheelhouse vendorisé sous packaging/ppa/vendor/wheelhouse — voir
+# packaging/ppa/README.md pour la procédure de régénération. PyQt6 reste un
+# paquet système (--system-site-packages) plutôt que vendorisé : c'est ce que
+# fait déjà l'AUR (BaseApp) et ça évite d'embarquer Qt en double.
+override_dh_auto_build:
+	# Aligne __version__ ET pyproject.toml sur le changelog debian — même
+	# logique que le double sed du PKGBUILD AUR (prepare()) et du .spec COPR
+	# (%prep) : sans le premier sed, l'app se pense en v0.1.0 (valeur statique
+	# de src/pdf_equilibrist/__init__.py) et le vérificateur de MAJ affiche
+	# "nouvelle version disponible" pour la version qu'on vient d'installer
+	# soi-même. Sans le second (pyproject.toml), pip génère les métadonnées
+	# du paquet installé (PKG-INFO) avec version=0.1.0 — invisible dans le
+	# dialogue "À propos" (qui lit __version__), mais visible via
+	# importlib.metadata.version("pdf-equilibrist"), utilisé par le
+	# vérificateur de CVE intégré : trouvé en confrontant les scans CVE de
+	# la même v0.1.19 sur Arch (correct, PKGBUILD patche déjà les deux
+	# fichiers) et sur Ubuntu/PPA (pdf-equilibrist affiché en 0.1.0).
+	sed -i "s/^__version__ = \".*\"/__version__ = \"$$(dpkg-parsechangelog -SVersion | cut -d- -f1)\"/" \
+		src/pdf_equilibrist/__init__.py
+	sed -i "s/^version = \".*\"$$/version = \"$$(dpkg-parsechangelog -SVersion | cut -d- -f1)\"/" \
+		pyproject.toml
+	python3 -m venv --system-site-packages $(CURDIR)/debian/venv-build
+	# --no-deps + liste explicite de TOUS les paquets du wheelhouse (pas
+	# seulement les paquets top-level) : avec --system-site-packages, pip
+	# considère une dépendance transitive "déjà satisfaite" si une machine
+	# de build a le paquet système équivalent (ex. numpy) — et l'installe
+	# alors nulle part dans le venv. Sur une machine cible sans ce paquet
+	# système, l'app crashe au démarrage (ModuleNotFoundError). En listant
+	# tous les paquets explicitement avec --no-deps, chacun est forcé dans
+	# le venv, sans dépendre de ce qui traîne déjà sur la machine de build.
+	# Noms de paquets (pas de chemins de fichiers exacts) + double
+	# --find-links : pip résout tout seul la bonne variante d'ABI parmi les
+	# deux wheelhouses selon le Python de CE chroot de build.
+	$(CURDIR)/debian/venv-build/bin/pip install --no-index --no-deps \
+		--find-links=$(WHEELHOUSE) --find-links=$(WHEELHOUSE_VERSIONED) \
+		cffi charset-normalizer cryptography et-xmlfile fire fonttools lxml \
+		numpy opencv-python-headless openpyxl pdf2docx pdfminer.six \
+		pdfplumber Pillow pycparser PyMuPDF pyparsing pypdfium2 \
+		python-docx python-pptx termcolor typing-extensions XlsxWriter \
+		rapidocr onnxruntime omegaconf protobuf pyclipper PyYAML shapely six \
+		colorlog colorama flatbuffers packaging requests idna urllib3 certifi tqdm
+	$(CURDIR)/debian/venv-build/bin/pip install --no-index --no-build-isolation --no-deps .
+	# OCR embarqué : un paquet dont l'OCR annoncé ne fonctionne pas ne doit pas
+	# être publié. Auto-test dans le venv fraîchement construit (réseau interdit
+	# par le test lui-même ; les builders Launchpad n'en ont de toute façon pas) :
+	# vérifie que les modèles .onnx livrés dans la wheel rapidocr sont présents et
+	# que le texte français est reconnu. Un échec ici fait échouer le build.
+	$(CURDIR)/debian/venv-build/bin/python -m pdf_equilibrist.main --ocr-selftest /tmp/ocr-selftest.txt \
+		|| { cat /tmp/ocr-selftest.txt; exit 1; }
+	cat /tmp/ocr-selftest.txt
+	# pip n'est jamais invoqué au runtime (l'app n'installe rien elle-même) —
+	# on le retire du venv livré plutôt que de courir après chaque nouvelle
+	# CVE pip (le scanner CVE intégré à l'app le remontait alors qu'il ne
+	# sert à rien une fois le paquet construit) : ensurepip embarque
+	# systématiquement la version figée dans le Python système du chroot de
+	# build, jamais la dernière corrigée en amont.
+	rm -rf $(CURDIR)/debian/venv-build/bin/pip \
+		$(CURDIR)/debian/venv-build/bin/pip3 \
+		$(CURDIR)/debian/venv-build/bin/pip3.* \
+		$(CURDIR)/debian/venv-build/lib/python3.*/site-packages/pip \
+		$(CURDIR)/debian/venv-build/lib/python3.*/site-packages/pip-*.dist-info
+
+override_dh_auto_install:
+	mkdir -p $(dir $(VENV))
+	cp -r $(CURDIR)/debian/venv-build $(VENV)
+	# Chemins absolus corrects une fois le paquet installé (pas le chroot de build)
+	sed -i "1s|^#!.*|#!/usr/lib/$(PACKAGE)/venv/bin/python3|" $(VENV)/bin/pdf-equilibrist || true
+
+	# "debian/..." et non "packaging/ppa/debian/..." : ce dernier pointerait vers
+	# la copie figée dans le tarball amont (celle du tag Git), pas vers le
+	# dossier debian/ réellement utilisé pour CE build — un bug qui a fait
+	# qu'une correction du lanceur n'a jamais été prise en compte au premier
+	# essai (voir mémoire projet).
+	install -Dm755 debian/pdf-equilibrist.sh $(PKGROOT)/usr/bin/pdf-equilibrist
+	install -Dm644 debian/pdf-equilibrist.desktop \
+		$(PKGROOT)/usr/share/applications/pdf-equilibrist.desktop
+	# hicolor plutôt que /usr/share/pixmaps/ (repli historique) : le dock
+	# GNOME/Ubuntu résout mal les icônes en pixmaps seul — même choix que
+	# le paquet AUR, qui utilise déjà cette structure de thème standard.
+	install -Dm644 debian/pdf-equilibrist-128.png \
+		$(PKGROOT)/usr/share/icons/hicolor/128x128/apps/pdf-equilibrist.png
+	install -Dm644 debian/pdf-equilibrist-256.png \
+		$(PKGROOT)/usr/share/icons/hicolor/256x256/apps/pdf-equilibrist.png
+	# resource_path() (src/pdf_equilibrist/utils.py) résout les assets sous
+	# {sys.prefix}/share/pdf-equilibrist/assets/ — au runtime, sys.prefix DANS
+	# le venv privé vaut /usr/lib/pdf-equilibrist/venv, PAS /usr (contrairement
+	# au paquet AUR qui installe en site-packages système directement). Les
+	# assets doivent donc vivre dans le venv lui-même, pas sous usr/share/ du
+	# paquet — sinon resource_path() ne les trouve jamais.
+	mkdir -p $(VENV)/share/pdf-equilibrist
+	cp -r assets $(VENV)/share/pdf-equilibrist/assets
+	# Même piège pour les traductions Qt (.qm) : resource_path() ne les
+	# trouve que sous {sys.prefix}/share/pdf-equilibrist/translations/ —
+	# sans ça install_translator() ne trouve jamais le .qm et l'app reste
+	# toujours en français quelle que soit la langue choisie (trouvé lors
+	# du test AUR de la 0.1.15, i18n de l'app jamais testé sur un paquet
+	# système avant ce test).
+	cp -r translations $(VENV)/share/pdf-equilibrist/translations
+
+override_dh_shlibdeps:
+	# Les .so embarqués (PyMuPDF, Pillow, lxml, opencv…) vivent dans le venv
+	# privé — dh_shlibdeps standard fausserait les dépendances système.
+	dh_shlibdeps --exclude=$(PACKAGE)/venv || true
+
+override_dh_strip:
+	# Idem : ne pas strip les binaires du venv vendorisé (wheels manylinux
+	# déjà optimisées, et dh_strip s'embrouille sur les .so hors paquets apt).
+	dh_strip --exclude=$(PACKAGE)/venv
+
+override_dh_dwz:
+	# dwz échoue sur les .so des wheels manylinux vendorisées (sections ELF
+	# non standard, pas de .debug_info — normal pour des binaires prébuilt
+	# tiers) : on saute complètement l'extraction de symboles de debug plutôt
+	# que de la limiter, --exclude ne suffit pas à éviter le crash ici.
+	true

@@ -1,0 +1,41 @@
+name: Update softwareVersion on gh-pages
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  checks:
+    name: Contrôles (lint, Bandit, tests)
+    uses: ./.github/workflows/checks.yml
+
+  update_version:
+    needs: checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+
+      # Le template multilingue et la page EN portent aussi softwareVersion : ne
+      # patcher que index.html faisait revenir l'ancienne version à chaque
+      # régénération par build_i18n.py.
+      - name: Mettre à jour softwareVersion (FR, EN, template)
+        run: |
+          VERSION="${{ github.ref_name }}"
+          VERSION="${VERSION#v}"
+          for f in index.html en/index.html multilingual/index.template.html; do
+            grep -q '"softwareVersion"' "$f" || { echo "ERREUR : champ softwareVersion introuvable dans $f"; exit 1; }
+            sed -i "s/\"softwareVersion\": \"[^\"]*\"/\"softwareVersion\": \"$VERSION\"/" "$f"
+            grep -q "\"softwareVersion\": \"$VERSION\"" "$f" || { echo "ERREUR : remplacement de softwareVersion échoué dans $f"; exit 1; }
+          done
+          echo "softwareVersion mis à jour : $VERSION"
+
+      - name: Commit et push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html en/index.html multilingual/index.template.html
+          git diff --cached --quiet || git commit -m "chore: softwareVersion → ${{ github.ref_name }}"
+          git push origin gh-pages

@@ -1,0 +1,159 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version sans le "v" (ex: 0.1.0)'
+        required: true
+        default: '0.1.0'
+
+jobs:
+  checks:
+    name: Contrôles (lint, Bandit, tests)
+    uses: ./.github/workflows/checks.yml
+
+  build_and_release:
+    needs: checks
+    name: Build installer and create release
+    runs-on: windows-latest
+    env:
+      PYTHONUTF8: '1'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Resolve version
+        id: version
+        shell: pwsh
+        run: |
+          if ('${{ github.event_name }}' -eq 'workflow_dispatch') {
+            $v = '${{ github.event.inputs.version }}'.TrimStart('v')
+          } else {
+            $v = '${{ github.ref_name }}'.TrimStart('v')
+          }
+          echo "VERSION=$v" >> $env:GITHUB_OUTPUT
+
+      - name: Inject version into the package
+        shell: pwsh
+        run: |
+          $v = '${{ steps.version.outputs.VERSION }}'
+
+          (Get-Content src/pdf_equilibrist/__init__.py) `
+            -replace '__version__ = ".*"', "__version__ = ""$v""" |
+            Set-Content src/pdf_equilibrist/__init__.py
+
+          (Get-Content pyproject.toml) `
+            -replace '^version = ".*"$', "version = ""$v""" |
+            Set-Content pyproject.toml
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+          pip install pyinstaller
+
+      - name: Prepare build assets
+        run: |
+          python tools/prepare_build.py
+
+      - name: Compile translations (.ts → .qm)
+        shell: pwsh
+        run: |
+          # pyqt5-tools n'a pas toujours de wheel prête pour la version de Python
+          # du runner (rencontré le 2026-07-30 en local) — pyside6-essentials est
+          # un repli fiable pour le même binaire lrelease, compatible avec ce
+          # format .ts/.qm Qt6. Le générateur Python minimaliste de
+          # compile_translations.py est un DERNIER recours non fiable (a déjà
+          # produit un .qm corrompu qui fait planter QTranslator.load()) — ne
+          # doit jamais être la seule option en silence.
+          pip install pyqt5-tools --quiet
+          $lrelease = Get-ChildItem (python -c "import site; print(site.getsitepackages()[0])") `
+            -Recurse -Filter "lrelease.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (-not $lrelease) {
+            Write-Host "pyqt5-tools sans lrelease utilisable — tentative pyside6-essentials"
+            pip install pyside6-essentials --quiet
+            $lrelease = Get-ChildItem (python -c "import site; print(site.getsitepackages()[0])") `
+              -Recurse -Filter "pyside6-lrelease.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+          }
+          if ($lrelease) {
+            Write-Host "lrelease: $($lrelease.FullName)"
+            Get-ChildItem translations -Filter "*.ts" | ForEach-Object {
+              & $lrelease.FullName $_.FullName -qm $_.FullName.Replace(".ts", ".qm")
+            }
+          } else {
+            Write-Error "Aucun lrelease trouvé (ni pyqt5-tools ni pyside6-essentials) — le générateur Python de secours n'est pas assez fiable pour produire un .qm valide, voir tools/compile_translations.py"
+            exit 1
+          }
+
+      - name: Build PyInstaller bundle
+        run: |
+          pyinstaller PDF-Equilibrist.spec
+
+      - name: Vérifier l'OCR de l'exécutable figé (modèles embarqués, réseau interdit)
+        shell: pwsh
+        run: |
+          $report = Join-Path $env:RUNNER_TEMP 'ocr-selftest.txt'
+          $p = Start-Process -FilePath 'dist\PDF-Equilibrist\PDF-Equilibrist.exe' `
+                 -ArgumentList '--ocr-selftest', $report -Wait -PassThru
+          if (Test-Path $report) { Get-Content $report }
+          if ($p.ExitCode -ne 0) { throw "OCR embarqué KO dans l'exécutable (code $($p.ExitCode))" }
+
+      - name: Install NSIS (Chocolatey)
+        run: |
+          choco install nsis -y
+
+      - name: Build NSIS installer
+        shell: pwsh
+        run: |
+          $v = '${{ steps.version.outputs.VERSION }}'
+          New-Item -ItemType Directory -Path installer\Output -Force
+          & 'C:\Program Files (x86)\NSIS\makensis.exe' "/DAPP_VERSION=$v" 'installer\PDF-Equilibrist.nsi'
+
+      - name: Sign installer (optionnel — nécessite le secret SIGNING_CERT_PFX_B64)
+        shell: pwsh
+        env:
+          CERT_B64: ${{ secrets.SIGNING_CERT_PFX_B64 }}
+          CERT_PASS: ${{ secrets.SIGNING_CERT_PASSWORD }}
+        run: |
+          if (-not $env:CERT_B64) {
+            Write-Host "Aucun certificat configuré — étape de signature ignorée."
+            exit 0
+          }
+          $bytes = [System.Convert]::FromBase64String($env:CERT_B64)
+          [IO.File]::WriteAllBytes('signing.pfx', $bytes)
+          $signtool = Get-ChildItem 'C:\Program Files (x86)\Windows Kits\10\bin' -Recurse -Filter 'signtool.exe' -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (-not $signtool) {
+            Write-Host "signtool.exe introuvable — signature ignorée."
+            Remove-Item signing.pfx -Force
+            exit 0
+          }
+          & $signtool.FullName sign /f signing.pfx /p $env:CERT_PASS /fd SHA256 /tr http://timestamp.digicert.com /td SHA256 'installer\Output\PDF-Equilibrist-Setup.exe'
+          Remove-Item signing.pfx -Force
+
+      - name: Create GitHub release and upload asset
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.VERSION }}
+          name: Release v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## Installation
+
+            - **Windows** : téléchargez `PDF-Equilibrist-Setup.exe` ci-dessous.
+            - **Arch Linux et dérivées** : `yay -S pdf-equilibrist` ([AUR](https://aur.archlinux.org/packages/pdf-equilibrist))
+            - **Ubuntu et dérivées** : `sudo add-apt-repository ppa:paulwoisard/pdf-equilibrist && sudo apt update && sudo apt install pdf-equilibrist` ([PPA](https://launchpad.net/~paulwoisard/+archive/ubuntu/pdf-equilibrist))
+            - **Fedora et dérivées** : `sudo dnf copr enable paullux/PDF-Equilibrist && sudo dnf install pdf-equilibrist` ([COPR](https://copr.fedorainfracloud.org/coprs/paullux/PDF-Equilibrist/))
+          append_body: true
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+          files: installer/Output/PDF-Equilibrist-Setup.exe

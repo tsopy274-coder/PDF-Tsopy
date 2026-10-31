@@ -1,0 +1,206 @@
+name: Linux PPA Publish
+
+# Publie automatiquement le paquet Ubuntu (noble + resolute) sur
+# ppa:paulwoisard/pdf-equilibrist à chaque nouvelle release, à la place du
+# cycle manuel debuild -S -sa + dput décrit dans packaging/ppa/README.md.
+# Reproduit exactement les leçons apprises manuellement ce soir :
+#   - l'orig.tar.gz est construit via `cp -r` du checkout (jamais via l'archive
+#     GitHub du tag) car packaging/ppa/vendor/ est gitignoré — c'est la cause
+#     racine du vrai échec de build qui a affecté 0.1.16/0.1.17.
+#   - l'orig.tar.gz doit être identique à l'octet près entre noble et resolute
+#     (contrainte Launchpad) : construit UNE SEULE FOIS puis ré-extrait pour
+#     chaque série, jamais retaré deux fois.
+#   - le haut de debian/changelog doit correspondre à la série en cours de
+#     build ; ce workflow retrouve la bonne entrée par son nom de série plutôt
+#     que de supposer un ordre fixe (l'ordre noble/resolute a déjà varié d'une
+#     release à l'autre).
+#
+# Prérequis (faits manuellement, voir mémoire projet) :
+#   - Secret de dépôt PPA_GPG_PRIVATE_KEY : clé GPG dédiée CI (RSA4096, sans
+#     passphrase — Launchpad ne supporte pas l'import de clés Ed25519/EdDSA),
+#     dont la clé publique est enregistrée sur le compte Launchpad en plus de
+#     la clé personnelle de l'auteur (launchpad.net/~/+editpgpkeys).
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version à publier (ex. 0.1.19) — pour tester sans attendre un vrai tag'
+        required: false
+
+jobs:
+  checks:
+    name: Contrôles (lint, Bandit, tests)
+    uses: ./.github/workflows/checks.yml
+
+  # Construit et teste les paquets .deb (noble + resolute) et .rpm AVANT toute publication,
+  # OCR compris : jamais de release Linux dont l'OCR annoncé ne fonctionne pas.
+  packages:
+    name: Paquets Linux (build + OCR)
+    uses: ./.github/workflows/linux-packages-check.yml
+
+  publish:
+    needs: [checks, packages]
+    name: Build and upload PPA source packages (noble + resolute)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Determine version from tag
+        id: version
+        env:
+          MANUAL_VERSION: ${{ github.event.inputs.version }}
+        run: |
+          v="${MANUAL_VERSION:-${GITHUB_REF_NAME#v}}"
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+
+      - name: Install packaging tooling
+        run: |
+          sudo apt-get update
+          # debhelper (la commande `dh`) est réellement invoquée par
+          # debian/rules même pour un build source-only (`dh clean` avant
+          # tout le reste) — -d plus bas ne dispense que de la vérification
+          # des Build-Depends, pas de la présence réelle des outils appelés.
+          sudo apt-get install -y devscripts dpkg-dev gnupg dput lintian debhelper
+
+      # Les wheels vendorisées (builders Launchpad sans réseau) sont téléchargées par
+      # un script unique, partagé avec linux-packages-check.yml : une dépendance
+      # ajoutée (ex. l'OCR RapidOCR/ONNX Runtime) ne peut plus être oubliée d'un côté.
+      # Téléchargement croisé pour noble (cp312) et resolute (cp314) : indépendant du
+      # Python du runner. Voir packaging/ppa/fetch_wheelhouse.sh.
+      - name: Download vendored wheelhouses (noble cp312 + resolute cp314)
+        run: bash packaging/ppa/fetch_wheelhouse.sh
+
+      - name: Import CI signing key
+        env:
+          PPA_GPG_PRIVATE_KEY: ${{ secrets.PPA_GPG_PRIVATE_KEY }}
+        run: |
+          echo "$PPA_GPG_PRIVATE_KEY" | gpg --batch --import
+          fpr=$(gpg --list-secret-keys --with-colons | awk -F: '/^fpr:/ {print $10; exit}')
+          echo "GPG_KEY_FPR=$fpr" >> "$GITHUB_ENV"
+
+      # SFTP plutôt que FTP : le FTP legacy de Launchpad a échoué de façon
+      # répétée et identique sur resolute (jamais noble) avec "550 ...
+      # internal server error" sur .dsc, y compris avec une pause entre les
+      # deux séries — pas un souci de rythme, plus probablement le endpoint
+      # FTP lui-même (le message d'erreur pointait déjà vers le mode
+      # passive_ftp). SFTP nécessite une authentification SSH réelle, donc
+      # une clé dédiée CI (séparée de la clé GPG) dont la partie publique
+      # doit être enregistrée sur launchpad.net/~paulwoisard/+editsshkeys.
+      # ssh-agent plutôt qu'un ~/.ssh/config avec IdentityFile : le premier
+      # essai a bloqué indéfiniment (job annulé manuellement après 15 min)
+      # sur l'étape d'upload — dput passe probablement par paramiko pour le
+      # SFTP, qui ne lit pas ~/.ssh/config (contrairement au client SSH
+      # natif) et a dû tenter d'autres méthodes d'auth par défaut en
+      # attendant une entrée interactive qui n'arrive jamais en CI.
+      # L'agent expose la clé via le protocole SSH agent standard, reconnu
+      # par toute implémentation SSH/SFTP, sans dépendre d'une convention
+      # de chemin de fichier.
+      - name: Configure SFTP upload to Launchpad
+        env:
+          PPA_SSH_PRIVATE_KEY: ${{ secrets.PPA_SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          ssh-keyscan -t rsa,ed25519 ppa.launchpad.net >> ~/.ssh/known_hosts 2>/dev/null
+
+          eval "$(ssh-agent -s)"
+          echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> "$GITHUB_ENV"
+          echo "SSH_AGENT_PID=$SSH_AGENT_PID" >> "$GITHUB_ENV"
+          echo "$PPA_SSH_PRIVATE_KEY" | ssh-add -
+
+          cat > ~/.dput.cf <<'DPUTCF'
+          [pdf-equilibrist]
+          fqdn = ppa.launchpad.net
+          method = sftp
+          incoming = ~paulwoisard/ubuntu/pdf-equilibrist/
+          login = paulwoisard
+          allow_unsigned_uploads = 0
+          DPUTCF
+
+      # Construit l'orig UNE SEULE FOIS à partir du checkout (pas de l'archive
+      # GitHub du tag, qui ne contient pas packaging/ppa/vendor/ gitignoré).
+      # Toutes les séries réutiliseront ce même fichier, jamais reconstruit.
+      - name: Build the shared orig tarball
+        run: |
+          v="${{ steps.version.outputs.version }}"
+          mkdir -p /tmp/ppa-build
+          cp -r "$GITHUB_WORKSPACE" "/tmp/ppa-build/pdf-equilibrist-${v}"
+          rm -rf "/tmp/ppa-build/pdf-equilibrist-${v}/.git"
+          # packaging/ppa/debian/ n'est PAS de la source amont — c'est réinjecté
+          # séparément par série juste après (étape suivante). Le laisser dans
+          # l'orig cassait la reproductibilité d'une façon sournoise : chaque
+          # bump de debian/changelog (fait à CHAQUE révision, y compris entre
+          # deux tentatives de la même version) changeait le contenu de l'orig
+          # déjà verrouillé côté Launchpad, provoquant un rejet "already exists
+          # ... different contents" même sur une série déjà acceptée (noble,
+          # après l'ajout de l'entrée ~resolute1 au changelog pour 0.1.22).
+          rm -rf "/tmp/ppa-build/pdf-equilibrist-${v}/packaging/ppa/debian"
+          # Reproductible octet pour octet entre deux runs : Launchpad exige un
+          # .orig.tar.gz identique pour toute révision d'une même version amont
+          # (le nom de fichier n'inclut pas le numéro de révision -N). `tar -z`
+          # / gzip embarquent par défaut un mtime dans leur en-tête qui varie à
+          # chaque run — d'où les rejets "already exists ... different contents"
+          # sur toute tentative après la première pour une version donnée. Tri
+          # des entrées + mtime fixe + gzip -n (pas de nom/date dans l'en-tête).
+          tar --sort=name --mtime='UTC 1970-01-01' --owner=0 --group=0 --numeric-owner \
+            -cf - -C /tmp/ppa-build "pdf-equilibrist-${v}" \
+            | gzip -n > "/tmp/ppa-build/pdf-equilibrist_${v}.orig.tar.gz"
+
+      - name: Build and upload for each series
+        run: |
+          v="${{ steps.version.outputs.version }}"
+          for series in noble resolute; do
+            echo "::group::${series}"
+            workdir="/tmp/ppa-build/${series}"
+            rm -rf "$workdir"
+            mkdir -p "$workdir"
+            cp "/tmp/ppa-build/pdf-equilibrist_${v}.orig.tar.gz" "$workdir/"
+            tar xzf "$workdir/pdf-equilibrist_${v}.orig.tar.gz" -C "$workdir"
+            srcdir="$workdir/pdf-equilibrist-${v}"
+            rm -rf "$srcdir/debian"
+            cp -r "$GITHUB_WORKSPACE/packaging/ppa/debian" "$srcdir/debian"
+
+            # Isole l'entrée de changelog de CETTE série en tête, quel que
+            # soit son ordre initial dans le fichier (a déjà varié d'une
+            # release à l'autre : voir mémoire projet).
+            awk -v pat=") ${series};" '
+              index($0, pat) { found=1 }
+              found { print }
+            ' "$srcdir/debian/changelog" > "$srcdir/debian/changelog.trimmed"
+            mv "$srcdir/debian/changelog.trimmed" "$srcdir/debian/changelog"
+
+            top_version=$(head -1 "$srcdir/debian/changelog" | sed -E 's/^[^(]*\(([^)]+)\).*/\1/')
+            expected="${v}"
+            case "$top_version" in
+              "${expected}"-*) ;;
+              *)
+                echo "::error::debian/changelog top entry for ${series} is ${top_version}, expected ${expected}-* — bump the changelog before tagging."
+                exit 1
+                ;;
+            esac
+
+            (
+              cd "$srcdir"
+              # -d : ignore la vérification des Build-Depends de debian/control
+              # (debhelper-compat, python3-pyqt6...) — inutile ici, un build
+              # source-only ne compile rien localement, c'est le build farm
+              # Launchpad qui installera les vraies dépendances pour le build
+              # binaire réel.
+              debuild -S -sa -d -k"${GPG_KEY_FPR}"
+            )
+
+            changes=$(find "$workdir" -maxdepth 1 -name "*_source.changes")
+            # 120s tuait le transfert en plein milieu du gros fichier
+            # (orig.tar.gz, potentiellement 100+ Mo avec les wheelhouses
+            # vendorisées) : le .dsc (petit) s'uploadait bien, exit 124
+            # (timeout) survenait toujours sur orig.tar.gz — le SFTP via
+            # paramiko est visiblement plus lent que le FTP legacy pour les
+            # gros transferts. 900s garde quand même un filet de sécurité
+            # contre un vrai blocage, sans tuer un transfert juste lent.
+            timeout 900 dput pdf-equilibrist "$changes" < /dev/null
+            echo "::endgroup::"
+          done

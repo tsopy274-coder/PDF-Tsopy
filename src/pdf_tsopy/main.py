@@ -1,0 +1,145 @@
+"""
+main.py — Point d'entrée de PDF-Equilibrist
+============================================
+Ce module est le premier exécuté au lancement de l'application.
+Il orchestre le démarrage en trois phases :
+
+Phase 1 — Splash screen
+    Crée la ``QApplication`` et affiche immédiatement le splash screen
+    avec barre de progression verte, avant tout chargement lourd.
+
+Phase 2 — Chargement progressif
+    Importe les bibliothèques lourdes (PyMuPDF, pdf2docx, pdfplumber…)
+    une par une en mettant à jour la barre de progression. Cette approche
+    permet à l'utilisateur de voir l'avancement au lieu d'un écran noir.
+    En cas d'erreur, une boîte de dialogue affiche le traceback complet.
+
+Phase 3 — Démarrage de la boucle Qt
+    Ferme le splash, effectue l'enregistrement Windows "Ouvrir avec..."
+    (silencieux, premier lancement uniquement), ouvre le fichier passé
+    en argument si l'app est lancée depuis l'explorateur, puis démarre
+    la boucle d'événements Qt principale.
+
+Compatibilité PyInstaller
+--------------------------
+``pyi_splash.close()`` est appelé si le module existe (exe compilé avec splash
+PyInstaller actif). En mode dev, l'``ImportError`` est silencieusement ignoré.
+
+"Ouvrir avec..." Windows
+-------------------------
+Quand un PDF est double-cliqué (association fichier) ou ouvert via
+"Ouvrir avec... PDF Equilibrist", Windows passe le chemin en ``sys.argv[1]``.
+Ce chemin est transmis à ``MainWindow._open_document()`` après le démarrage.
+"""
+import sys
+import traceback
+
+
+def main():
+    # Auto-test de l'OCR embarqué (CI, validation d'un exe/paquet) — sans interface.
+    if "--ocr-selftest" in sys.argv:
+        from pdf_tsopy.operations.ocr import selftest
+        i = sys.argv.index("--ocr-selftest")
+        sys.exit(selftest(sys.argv[i + 1] if len(sys.argv) > i + 1 else None))
+
+    # ── Phase 1 : QApplication et splash ─────────────────────────────────────
+    # QApplication DOIT être créée avant tout widget Qt (y compris le splash).
+    from PyQt6.QtWidgets import QApplication
+    from PyQt6.QtCore import QCoreApplication
+    app = QApplication(sys.argv)
+
+    # Installé avant le splash (et non dans create_app(), plus tardif) pour
+    # que le tout premier écran visible respecte déjà la langue choisie —
+    # sinon les messages de progression ci-dessous resteraient toujours en
+    # français même avec l'anglais sélectionné.
+    from pdf_tsopy.i18n import install_translator
+    install_translator(app)
+
+    # Blocage des connexions (menu Aide › Connexions Internet) appliqué avant
+    # toute requête possible — voir network.py.
+    from pdf_tsopy.settings import apply_network_policy
+    apply_network_policy()
+
+    from pdf_tsopy.ui.splash_screen import SplashScreen
+    splash = SplashScreen()
+    splash.show()
+    app.processEvents()   # forcer le rendu immédiat du splash
+
+    # ── Phase 2 : chargement progressif des modules ───────────────────────────
+    try:
+        # PyMuPDF est la bibliothèque la plus lourde (~20 Mo) — chargée en premier
+        splash.set_progress(5, QCoreApplication.translate("main", "Chargement de PyMuPDF…"))
+        import pymupdf                                             # noqa: F401
+
+        splash.set_progress(20, QCoreApplication.translate("main", "Chargement de PyQt6…"))
+        from PyQt6.QtCore import Qt                             # noqa: F401
+
+        # Bibliothèques de conversion Office/tableur — plusieurs Mo chacune
+        splash.set_progress(35, QCoreApplication.translate("main", "Chargement des convertisseurs…"))
+        import pdf2docx                                         # noqa: F401
+        import pdfplumber                                       # noqa: F401
+        import openpyxl                                         # noqa: F401
+        import pptx                                             # noqa: F401
+
+        # Chargement de l'UI (importe tous les modules PyQt6 de l'application)
+        splash.set_progress(55, QCoreApplication.translate("main", "Chargement de l'interface…"))
+        from pdf_tsopy.app import create_app
+
+        # Création et affichage de la fenêtre principale
+        splash.set_progress(75, QCoreApplication.translate("main", "Initialisation de la fenêtre…"))
+        create_app(app)
+
+        splash.set_progress(95, QCoreApplication.translate("main", "Prêt !"))
+        app.processEvents()
+
+    except Exception:
+        # Capturer tout crash de démarrage et l'afficher à l'utilisateur
+        err = traceback.format_exc()
+        splash.hide()
+        from PyQt6.QtWidgets import QMessageBox
+        box = QMessageBox()
+        box.setWindowTitle(QCoreApplication.translate("main", "Erreur au démarrage"))
+        box.setText(QCoreApplication.translate("main", "PDF Equilibrist n'a pas pu démarrer."))
+        box.setDetailedText(err)
+        box.setIcon(QMessageBox.Icon.Critical)
+        box.exec()
+        sys.exit(1)
+
+    # ── Phase 3 : fermeture du splash et démarrage ────────────────────────────
+
+    # Fermer le splash natif PyInstaller s'il est actif
+    # (affiché pendant le bootstrap C/Python avant que Qt démarre)
+    try:
+        import pyi_splash
+        pyi_splash.close()
+    except ModuleNotFoundError:
+        pass   # normal en mode dev — pyi_splash n'existe que dans l'exe
+
+    splash.close()
+    splash.deleteLater()
+
+    # Enregistrement "Ouvrir avec..." Windows au premier lancement de l'exe.
+    # Silencieux : ne fait rien en dev (sys.frozen=False) ni si déjà enregistré.
+    from pdf_tsopy.registration import auto_register
+    auto_register()
+
+    # Vérification silencieuse des mises à jour au démarrage — n'affiche un
+    # dialogue que si une nouvelle version est réellement disponible.
+    win = getattr(app, "_main_window", None)
+    if win and hasattr(win, "check_updates_on_startup"):
+        win.check_updates_on_startup()
+
+    # Ouvrir le fichier PDF passé en argument sur la ligne de commande.
+    # Windows transmet sys.argv[1] lors d'un double-clic ou d'un "Ouvrir avec..."
+    if len(sys.argv) > 1:
+        pdf_path = sys.argv[1]
+        if pdf_path.lower().endswith(".pdf"):
+            if win and hasattr(win, "_open_document"):
+                win._open_document(pdf_path)
+
+    # Démarrer la boucle d'événements Qt — bloque jusqu'à la fermeture de la fenêtre
+    sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()

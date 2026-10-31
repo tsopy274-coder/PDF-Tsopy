@@ -1,0 +1,55 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Distribution / packaging
+build/
+dist/
+release/
+PDF Equilibrist.zip
+*.egg-info/
+.eggs/
+
+# PyInstaller
+*.spec
+!packaging/copr/pdf-equilibrist.spec
+
+# Logs and temp files
+*.log
+*.tmp
+*.temp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Installer output
+installer/Output/
+
+# PPA packaging build artifacts (régénérés, pas commités — voir packaging/ppa/README.md)
+packaging/ppa/vendor/
+packaging/ppa/*.deb
+packaging/ppa/*.buildinfo
+packaging/ppa/*.changes
+packaging/ppa/upload-server.js
+packaging/ppa/cve_report.txt
+
+# COPR packaging build artifacts (régénérés, pas commités — voir packaging/copr/README.md)
+packaging/copr/vendor/
+packaging/copr/*.rpm
+packaging/copr/*.src.rpm
+
+# Bytecode and caches
+*.pyc
+*.pyo
+*.pyd
+
+# Réglages locaux de Claude Code (chemins, permissions) — ne pas versionner
+.claude/settings.local.json

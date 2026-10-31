@@ -1,0 +1,23 @@
+Windows Registry Editor Version 5.00
+
+; 1. Δήλωση της εφαρμογής στις Δυνατότητες των Windows
+[HKEY_CURRENT_USER\SOFTWARE\PDF-Tsopy\Capabilities]
+"ApplicationName"="PDF-Tsopy"
+"ApplicationDescription"="PDF Document Viewer (Tsopy)"
+
+[HKEY_CURRENT_USER\SOFTWARE\PDF-Tsopy\Capabilities\FileAssociations]
+".pdf"="PDF-Tsopy.pdf"
+
+; 2. Καταχώρηση στη λίστα των Προεπιλεγμένων Εφαρμογών
+[HKEY_CURRENT_USER\SOFTWARE\RegisteredApplications]
+"PDF-Tsopy"="Software\\PDF-Tsopy\\Capabilities"
+
+; 3. Σύνδεση της προεπιλογής με το πρόγραμμα
+[HKEY_CURRENT_USER\SOFTWARE\Classes\.pdf]
+@="PDF-Tsopy.pdf"
+
+[HKEY_CURRENT_USER\SOFTWARE\Classes\PDF-Tsopy.pdf]
+@="PDF Document (Tsopy)"
+
+[HKEY_CURRENT_USER\SOFTWARE\Classes\PDF-Tsopy.pdf\shell\open\command]
+@="\"C:\\Program Files\\HarisPDF\\PDF-Tsopy.exe\" \"%1\""
