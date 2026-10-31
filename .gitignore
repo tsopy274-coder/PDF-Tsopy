@@ -54,4 +54,5 @@ packaging/copr/*.src.rpm
 # Réglages locaux de Claude Code (chemins, permissions) — ne pas versionner
 .claude/settings.local.json
 "*.rar" 
-"installer_output.rar" 
+installer_output.rar 
+!PDF-Tsopy.spec
