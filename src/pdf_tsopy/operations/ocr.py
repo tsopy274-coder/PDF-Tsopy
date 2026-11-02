@@ -44,7 +44,7 @@ import pymupdf
 
 
 # ── Résolution de rastérisation pour l'OCR ───────────────────────────────────
-_OCR_DPI = 300          # DPI de rastérisation (300 dpi = bon compromis précision/vitesse)
+_OCR_DPI = 600          # DPI de rastérisation (600 dpi = bon compromis précision/vitesse)
 _OCR_ZOOM = _OCR_DPI / 72.0   # facteur zoom PyMuPDF (1 pt PDF = 1/72 pouce)
 
 
@@ -74,11 +74,11 @@ def _check_cancel(cancel_cb: Callable[[], bool] | None) -> None:
 
 # Modèles livrés dans la wheel rapidocr (dossier ``rapidocr/models``)
 _MODEL_FILES = (
-    "PP-OCRv6_det_small.onnx",
-    "PP-OCRv6_rec_small.onnx",
+    "PP-OCRv6_det_medium.onnx",
+    "el_PP-OCRv5_rec_mobile.onnx",
+    "ppocrv5_el_dict.txt",
     "ch_ppocr_mobile_v2.0_cls_mobile.onnx",
 )
-
 
 def _models_dir() -> Path:
     import importlib.util
@@ -101,14 +101,24 @@ def _check_models() -> None:
 def _get_ocr_engine():
     """Instancie RapidOCR sur les modèles embarqués (aucun téléchargement)."""
     _check_models()
-    from rapidocr import RapidOCR
-    return RapidOCR(params={"Global.log_level": "error"})
+    from rapidocr import RapidOCR, ModelType, OCRVersion, LangRec
+    return RapidOCR(params={
+        "Global.log_level": "error",
+        "Det.model_type": ModelType.MEDIUM,
+        "Det.ocr_version": OCRVersion.PPOCRV6,
+        "Rec.lang_type": LangRec.EL,
+        "Rec.model_type": ModelType.MOBILE,
+        "Rec.ocr_version": OCRVersion.PPOCRV5,
+    })
 
 
 def _page_to_pil(page: pymupdf.Page):
-    """Rastérise une page PDF en image PIL à _OCR_DPI."""
+    """Rastérise une page PDF en image PIL au DPI configuré (paramètres)."""
     from PIL import Image
-    mat = pymupdf.Matrix(_OCR_ZOOM, _OCR_ZOOM)
+    from pdf_tsopy import settings
+    dpi = settings.ocr_dpi()
+    zoom = dpi / 72.0
+    mat = pymupdf.Matrix(zoom, zoom)
     pix = page.get_pixmap(matrix=mat, alpha=False)
     return Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
 

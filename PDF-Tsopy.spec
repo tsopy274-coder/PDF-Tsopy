@@ -26,14 +26,23 @@ a = Analysis(
     ['src/pdf_tsopy/main.py'],
     pathex=[],
     binaries=_collect_pywin32_system32_binaries(),
-    datas=collect_data_files('win32com') + [
-        ('translations', 'translations'),
-        ('assets', 'assets'),
-    ] + collect_data_files('pymupdf'),
-    hiddenimports=collect_submodules('win32com') + [
-        'pythoncom',
-        'pywintypes',
-    ],
+    datas=(
+        collect_data_files('win32com')
+        + collect_data_files('rapidocr')          # ← ΝΕΟ: μοντέλα + yaml του rapidocr
+        + [
+            ('translations', 'translations'),
+            ('assets', 'assets'),
+        ]
+        + collect_data_files('pymupdf')
+    ),
+    hiddenimports=(
+        collect_submodules('win32com')
+        + collect_submodules('rapidocr')          # ← ΝΕΟ: όλα τα submodules του rapidocr
+        + [
+            'pythoncom',
+            'pywintypes',
+        ]
+    ),
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],

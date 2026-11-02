@@ -56,3 +56,7 @@ packaging/copr/*.src.rpm
 "*.rar" 
 installer_output.rar 
 !PDF-Tsopy.spec
+*.tar 
+PP-OCRv6_medium_det_onnx/ 
+PP-OCRv6_medium_rec_0515_onnx/ 
+installer_output/ 

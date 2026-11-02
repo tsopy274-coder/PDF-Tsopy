@@ -34,7 +34,7 @@ from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout,
     QTabBar, QStackedWidget, QFileDialog, QLabel, QSplitter,
 )
-from PyQt6.QtGui import QAction, QKeySequence, QColor, QPainter, QPen
+from PyQt6.QtGui import QAction, QKeySequence, QColor, QPainter, QPen, QActionGroup
 from PyQt6.QtCore import Qt, QPoint, QSettings, QThread, pyqtSignal
 
 from pdf_tsopy.ui.title_bar import TitleBar
@@ -372,6 +372,19 @@ class MainWindow(QWidget):
         self._act_startup_check.setEnabled(not settings.network_blocked())
         self._act_startup_check.toggled.connect(settings.set_startup_update_check)
         net_menu.addAction(self._act_startup_check)
+
+        # ── Ρύθμιση ανάλυσης OCR (DPI) ──────────────────────────────────────
+        ocr_menu = aide.addMenu(self.tr("Ανάλυση OCR (DPI)"))
+        _ocr_group = QActionGroup(self)
+        _ocr_group.setExclusive(True)
+        _current_dpi = settings.ocr_dpi()
+        for _dpi in (300, 400, 500, 600):
+            _act = QAction(f"{_dpi} DPI", self)
+            _act.setCheckable(True)
+            _act.setChecked(_dpi == _current_dpi)
+            _act.triggered.connect(lambda _checked=False, d=_dpi: settings.set_ocr_dpi(d))
+            _ocr_group.addAction(_act)
+            ocr_menu.addAction(_act)
 
         aide.addSeparator()
 

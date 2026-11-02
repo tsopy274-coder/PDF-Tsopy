@@ -15,6 +15,10 @@ Deux réglages, exposés dans le menu Aide › Connexions Internet :
     elle-même : sous Linux (AUR, PPA, COPR, Flatpak), c'est le travail du
     gestionnaire de paquets, et une requête au lancement n'y a pas sa place.
     La vérification manuelle (menu Aide) reste disponible partout.
+
+``ocr/dpi``
+    Résolution (DPI) utilisée pour rastériser les pages PDF avant l'OCR.
+    Valeurs acceptées : 300 (rapide), 400, 500, 600 (lent, meilleure précision).
 """
 from __future__ import annotations
 
@@ -26,6 +30,7 @@ from pdf_tsopy import network
 
 _KEY_BLOCKED = "network/blocked"
 _KEY_STARTUP_CHECK = "network/check_updates_on_startup"
+_KEY_OCR_DPI = "ocr/dpi"
 
 
 def _settings() -> QSettings:
@@ -52,3 +57,15 @@ def set_startup_update_check(enabled: bool) -> None:
 def apply_network_policy() -> None:
     """Pousse la préférence enregistrée dans ``network`` — à appeler au démarrage."""
     network.set_blocked(network_blocked())
+
+
+# ── OCR DPI ──────────────────────────────────────────────────────────────────
+
+def ocr_dpi() -> int:
+    """Retourne le DPI configuré pour l'OCR (par défaut 300)."""
+    return int(_settings().value(_KEY_OCR_DPI, 300, type=int))
+
+
+def set_ocr_dpi(dpi: int) -> None:
+    """Enregistre le DPI pour l'OCR."""
+    _settings().setValue(_KEY_OCR_DPI, int(dpi))
