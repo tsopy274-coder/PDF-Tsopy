@@ -3,20 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF-Tsopy - Επεξεργαστής PDF</title>
+    <title>PDF-Tsopy - PDF Editor</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #1A1A1A; color: #F0F0F0; }
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #1A1A1A; color: #F0F0F0; transition: 0.3s; }
         h1 { color: #6BBF4E; }
-        a { display: inline-block; margin-top: 20px; padding: 15px 30px; background-color: #6BBF4E; color: #1A1A1A; text-decoration: none; border-radius: 5px; font-weight: bold; }
-        a:hover { background-color: #5aa33e; }
+        .lang-selector { position: absolute; top: 20px; right: 20px; }
+        .lang-selector button { background: #2D2D2D; color: #FFF; border: 1px solid #444; padding: 5px 10px; cursor: pointer; border-radius: 4px; margin-left: 5px; }
+        .lang-selector button:hover { background: #6BBF4E; color: #1A1A1A; }
+        .btn { display: inline-block; margin-top: 20px; padding: 15px 30px; background-color: #6BBF4E; color: #1A1A1A; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        .btn:hover { background-color: #5aa33e; }
+        .btn-github { background-color: #2D2D2D; color: #F0F0F0; }
+        .btn-github:hover { background-color: #444; }
     </style>
 </head>
 <body>
+
+    <!-- Επιλογή Γλώσσας -->
+    <div class="lang-selector">
+        <button onclick="changeLang('el')">🇬🇷 EL</button>
+        <button onclick="changeLang('en')">🇬🇧 EN</button>
+        <button onclick="changeLang('fr')">🇫🇷 FR</button>
+        <button onclick="changeLang('de')">🇩🇪 DE</button>
+    </div>
+
     <h1>PDF-Tsopy</h1>
-    <p>Ένας δωρεάν, τοπικός επεξεργαστής PDF για Windows με υποστήριξη Ελληνικών.</p>
-    <p>Μετατροπή, σχολιασμός, OCR, προστασία και πολλά άλλα.</p>
-    <a href="https://github.com/tsopy274-coder/PDF-Tsopy/releases">⬇️ Λήψη για Windows</a>
+    <p id="desc1"></p>
+    <p id="desc2"></p>
+    <a href="https://github.com/tsopy274-coder/PDF-Tsopy/releases" class="btn" id="btn-download"></a>
     <br><br>
-    <a href="https://github.com/tsopy274-coder/PDF-Tsopy" style="background-color: #2D2D2D; color: #F0F0F0;">Δες τον κώδικα στο GitHub</a>
+    <a href="https://github.com/tsopy274-coder/PDF-Tsopy" class="btn btn-github" id="btn-github"></a>
+
+    <script>
+        // Λεξικό μεταφράσεων
+        const translations = {
+            el: {
+                desc1: "Ένας δωρεάν, τοπικός επεξεργαστής PDF για Windows με υποστήριξη Ελληνικών.",
+                desc2: "Μετατροπή, σχολιασμός, OCR, προστασία και πολλά άλλα.",
+                btn_download: "⬇️ Λήψη για Windows",
+                btn_github: "Δες τον κώδικα στο GitHub"
+            },
+            en: {
+                desc1: "A free, local PDF editor for Windows with Greek support.",
+                desc2: "Conversion, annotation, OCR, protection, and much more.",
+                btn_download: "⬇️ Download for Windows",
+                btn_github: "View code on GitHub"
+            },
+            fr: {
+                desc1: "Un éditeur PDF local et gratuit pour Windows avec prise en charge du grec.",
+                desc2: "Conversion, annotation, OCR, protection et bien plus encore.",
+                btn_download: "⬇️ Télécharger pour Windows",
+                btn_github: "Voir le code sur GitHub"
+            },
+            de: {
+                desc1: "Ein kostenloser, lokaler PDF-Editor für Windows mit griechischer Unterstützung.",
+                desc2: "Konvertierung, Anmerkungen, OCR, Schutz und vieles mehr.",
+                btn_download: "⬇️ Download für Windows",
+                btn_github: "Code auf GitHub ansehen"
+            }
+        };
+
+        // Συνάρτηση αλλαγής γλώσσας
+        function changeLang(lang) {
+            document.getElementById('desc1').innerText = translations[lang].desc1;
+            document.getElementById('desc2').innerText = translations[lang].desc2;
+            document.getElementById('btn-download').innerText = translations[lang].btn_download;
+            document.getElementById('btn-github').innerText = translations[lang].btn_github;
+            document.documentElement.lang = lang;
+        }
+
+        // Φόρτωση προεπιλεγμένης γλώσσας (Ελληνικά)
+        window.onload = () => changeLang('el');
+    </script>
 </body>
 </html>
