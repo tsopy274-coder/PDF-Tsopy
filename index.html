@@ -1,74 +1,106 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF-Tsopy - PDF Editor</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #1A1A1A; color: #F0F0F0; transition: 0.3s; }
-        h1 { color: #6BBF4E; }
-        .lang-selector { position: absolute; top: 20px; right: 20px; }
-        .lang-selector button { background: #2D2D2D; color: #FFF; border: 1px solid #444; padding: 5px 10px; cursor: pointer; border-radius: 4px; margin-left: 5px; }
-        .lang-selector button:hover { background: #6BBF4E; color: #1A1A1A; }
-        .btn { display: inline-block; margin-top: 20px; padding: 15px 30px; background-color: #6BBF4E; color: #1A1A1A; text-decoration: none; border-radius: 5px; font-weight: bold; }
-        .btn:hover { background-color: #5aa33e; }
-        .btn-github { background-color: #2D2D2D; color: #F0F0F0; }
-        .btn-github:hover { background-color: #444; }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PDF-Tsopy – PDF Editor</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Inter:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0c0a22; --bg2:#15113a; --ink:#f4f1ff; --mute:#a9a3d6;
+  --cyan:#5ef2ff; --pink:#ff4fd8; --gold:#ffd166;
+  --display:'Montserrat','Segoe UI',Arial,sans-serif;
+  --body:'Inter','Segoe UI',Arial,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:radial-gradient(1200px 700px at 50% -10%,var(--bg2),var(--bg));color:var(--ink);font:400 17px/1.6 var(--body);min-height:100vh;overflow-x:hidden}
+.orb{position:fixed;border-radius:50%;filter:blur(90px);opacity:.5;pointer-events:none;z-index:0}
+.o1{width:380px;height:380px;background:var(--pink);top:-120px;left:-100px}
+.o2{width:420px;height:420px;background:var(--cyan);bottom:-160px;right:-120px;opacity:.35}
+main,header,footer{position:relative;z-index:1}
+header{display:flex;justify-content:flex-end;padding:18px 20px}
+.lang{display:flex;gap:6px;flex-wrap:wrap}
+.lang button{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:var(--ink);font:500 14px var(--body);padding:7px 12px;border-radius:999px;cursor:pointer;transition:.2s}
+.lang button:hover{border-color:var(--cyan)}
+.lang button[aria-pressed="true"]{background:linear-gradient(135deg,var(--pink),#8a5bff);border-color:transparent;box-shadow:0 0 18px rgba(255,79,216,.6)}
+button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.hero{text-align:center;padding:30px 20px 70px;max-width:820px;margin:0 auto}
+.doc{width:130px;height:168px;margin:0 auto 34px;position:relative;border-radius:16px;background:linear-gradient(160deg,#ffffff,#d9d3ff);box-shadow:0 0 0 2px rgba(255,255,255,.5),0 0 40px var(--pink),0 0 110px rgba(94,242,255,.6);animation:float 5s ease-in-out infinite}
+.doc::before{content:"";position:absolute;top:0;right:0;width:38px;height:38px;background:linear-gradient(225deg,var(--bg) 50%,#b7aef5 50%);border-radius:0 16px 0 10px}
+.doc span{position:absolute;left:18px;right:18px;height:7px;border-radius:4px;background:#8f86d9}
+.doc span:nth-child(1){top:62px}.doc span:nth-child(2){top:82px;right:34px}.doc span:nth-child(3){top:102px}
+.doc b{position:absolute;left:18px;bottom:18px;font:800 22px var(--display);color:#e0245e;letter-spacing:.5px}
+@keyframes float{50%{transform:translateY(-12px)}}
+h1{font:800 clamp(44px,10vw,84px)/1.02 var(--display);margin:0 0 18px;background:linear-gradient(100deg,var(--cyan),#fff 45%,var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(94,242,255,.45))}
+.sub{font-size:clamp(18px,3.6vw,22px);color:var(--mute);max-width:56ch;margin:0 auto 34px}
+.cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;text-decoration:none;font:700 17px var(--display);padding:15px 28px;border-radius:14px;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-3px)}
+.primary{color:#140f33;background:linear-gradient(135deg,var(--gold),#ff9d6c);box-shadow:0 0 28px rgba(255,209,102,.65)}
+.primary:hover{box-shadow:0 0 46px rgba(255,209,102,.95)}
+.ghost{color:var(--ink);border:1.5px solid var(--cyan);box-shadow:0 0 18px rgba(94,242,255,.35) inset,0 0 18px rgba(94,242,255,.35)}
+.ghost:hover{box-shadow:0 0 26px rgba(94,242,255,.6) inset,0 0 30px rgba(94,242,255,.6)}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;max-width:1000px;margin:0 auto;padding:0 20px 80px}
+.card{padding:26px;border-radius:22px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px)}
+.card:nth-child(1){box-shadow:0 0 34px rgba(94,242,255,.22)}
+.card:nth-child(2){box-shadow:0 0 34px rgba(255,79,216,.25)}
+.card:nth-child(3){box-shadow:0 0 34px rgba(255,209,102,.22)}
+.card h2{font:700 21px var(--display);margin:0 0 8px}
+.card p{margin:0;color:var(--mute);font-size:16px}
+.dot{width:14px;height:14px;border-radius:50%;margin-bottom:16px}
+.card:nth-child(1) .dot{background:var(--cyan);box-shadow:0 0 16px var(--cyan)}
+.card:nth-child(2) .dot{background:var(--pink);box-shadow:0 0 16px var(--pink)}
+.card:nth-child(3) .dot{background:var(--gold);box-shadow:0 0 16px var(--gold)}
+footer{text-align:center;color:var(--mute);font-size:14px;padding:0 20px 36px}
+footer a{color:var(--cyan)}
+@media (prefers-reduced-motion:reduce){.doc{animation:none}.btn{transition:none}}
+</style>
 </head>
 <body>
-
-    <div class="lang-selector">
-        <button onclick="changeLang('el')">🇬🇷 EL</button>
-        <button onclick="changeLang('en')">🇬🇧 EN</button>
-        <button onclick="changeLang('fr')">🇫🇷 FR</button>
-        <button onclick="changeLang('de')">🇩🇪 DE</button>
-    </div>
-
+<div class="orb o1"></div><div class="orb o2"></div>
+<header>
+  <div class="lang" role="group" aria-label="Language">
+    <button data-l="el">🇬🇷 EL</button><button data-l="en">🇬🇧 EN</button><button data-l="fr">🇫🇷 FR</button><button data-l="de">🇩🇪 DE</button>
+  </div>
+</header>
+<main>
+  <section class="hero">
+    <div class="doc" aria-hidden="true"><span></span><span></span><span></span><b>PDF</b></div>
     <h1>PDF-Tsopy</h1>
-    <p id="desc1"></p>
-    <p id="desc2"></p>
-    <a href="https://github.com/tsopy274-coder/PDF-Tsopy/releases" class="btn" id="btn-download"></a>
-    <br><br>
-    <a href="https://github.com/tsopy274-coder/PDF-Tsopy" class="btn btn-github" id="btn-github"></a>
-
-    <script>
-        const translations = {
-            el: {
-                desc1: "Ένας δωρεάν, τοπικός επεξεργαστής PDF για Windows με υποστήριξη Ελληνικών.",
-                desc2: "Μετατροπή, σχολιασμός, OCR, προστασία και πολλά άλλα.",
-                btn_download: "⬇️ Λήψη για Windows",
-                btn_github: "Δες τον κώδικα στο GitHub"
-            },
-            en: {
-                desc1: "A free, local PDF editor for Windows with Greek support.",
-                desc2: "Conversion, annotation, OCR, protection, and much more.",
-                btn_download: "⬇️ Download for Windows",
-                btn_github: "View code on GitHub"
-            },
-            fr: {
-                desc1: "Un éditeur PDF local et gratuit pour Windows avec prise en charge du grec.",
-                desc2: "Conversion, annotation, OCR, protection et bien plus encore.",
-                btn_download: "⬇️ Télécharger pour Windows",
-                btn_github: "Voir le code sur GitHub"
-            },
-            de: {
-                desc1: "Ein kostenloser, lokaler PDF-Editor für Windows mit griechischer Unterstützung.",
-                desc2: "Konvertierung, Anmerkungen, OCR, Schutz und vieles mehr.",
-                btn_download: "⬇️ Download für Windows",
-                btn_github: "Code auf GitHub ansehen"
-            }
-        };
-
-        function changeLang(lang) {
-            document.getElementById('desc1').innerText = translations[lang].desc1;
-            document.getElementById('desc2').innerText = translations[lang].desc2;
-            document.getElementById('btn-download').innerText = translations[lang].btn_download;
-            document.getElementById('btn-github').innerText = translations[lang].btn_github;
-            document.documentElement.lang = lang;
-        }
-
-        window.onload = () => changeLang('el');
-    </script>
+    <p class="sub" data-k="sub"></p>
+    <div class="cta">
+      <a class="btn primary" data-k="dl" href="https://github.com/tsopy274-coder/PDF-Tsopy/releases"></a>
+      <a class="btn ghost" data-k="gh" href="https://github.com/tsopy274-coder/PDF-Tsopy"></a>
+    </div>
+  </section>
+  <section class="feat">
+    <div class="card"><div class="dot"></div><h2 data-k="t1"></h2><p data-k="d1"></p></div>
+    <div class="card"><div class="dot"></div><h2 data-k="t2"></h2><p data-k="d2"></p></div>
+    <div class="card"><div class="dot"></div><h2 data-k="t3"></h2><p data-k="d3"></p></div>
+  </section>
+</main>
+<footer><span data-k="ft"></span> <a href="https://github.com/tsopy274-coder/PDF-Tsopy">GitHub</a></footer>
+<script>
+const T={
+el:{sub:"Ο εύκολος τρόπος να επεξεργάζεστε τα αρχεία PDF σας.",dl:"Λήψη",gh:"Κώδικας στο GitHub",t1:"Επεξεργασία",d1:"Αλλάξτε το περιεχόμενο των εγγράφων σας γρήγορα και καθαρά.",t2:"Απλό στη χρήση",d2:"Καθαρό περιβάλλον, χωρίς περιττά βήματα.",t3:"Τέσσερις γλώσσες",d3:"Ελληνικά, Αγγλικά, Γαλλικά και Γερμανικά.",ft:"Φτιαγμένο από τον tsopy274."},
+en:{sub:"The easy way to edit your PDF files.",dl:"Download",gh:"Code on GitHub",t1:"Edit",d1:"Change the content of your documents quickly and cleanly.",t2:"Simple to use",d2:"A clean interface with no extra steps.",t3:"Four languages",d3:"Greek, English, French and German.",ft:"Made by tsopy274."},
+fr:{sub:"La façon simple de modifier vos fichiers PDF.",dl:"Télécharger",gh:"Code sur GitHub",t1:"Modifier",d1:"Changez le contenu de vos documents rapidement et proprement.",t2:"Simple à utiliser",d2:"Une interface claire, sans étapes inutiles.",t3:"Quatre langues",d3:"Grec, anglais, français et allemand.",ft:"Créé par tsopy274."},
+de:{sub:"Der einfache Weg, Ihre PDF-Dateien zu bearbeiten.",dl:"Herunterladen",gh:"Code auf GitHub",t1:"Bearbeiten",d1:"Ändern Sie den Inhalt Ihrer Dokumente schnell und sauber.",t2:"Einfach zu bedienen",d2:"Eine klare Oberfläche ohne unnötige Schritte.",t3:"Vier Sprachen",d3:"Griechisch, Englisch, Französisch und Deutsch.",ft:"Erstellt von tsopy274."}
+};
+function setLang(l){
+  document.documentElement.lang=l;
+  document.querySelectorAll('[data-k]').forEach(e=>e.textContent=T[l][e.dataset.k]);
+  document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===l));
+  try{localStorage.setItem('lang',l)}catch(e){}
+}
+document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.l)));
+let s='el';try{s=localStorage.getItem('lang')||'el'}catch(e){}
+setLang(T[s]?s:'el');
+</script>
 </body>
 </html>
