@@ -41,6 +41,7 @@ GPLv3
 ## 🇬🇧 English
 
 A **free, local PDF editor** for Windows, written in Python (PyQt6 + PyMuPDF).
+
 🌐 **Official Website:** [https://tsopy274-coder.github.io/PDF-Tsopy](https://tsopy274-coder.github.io/PDF-Tsopy)
 
 ### ✨ Features
