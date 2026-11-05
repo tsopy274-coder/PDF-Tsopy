@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF-Tsopy | Ultimate Edition</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
+    <title>PDF-Tsopy | ULTRA CYBER EDITION</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -14,178 +12,221 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Orbitron', sans-serif;
         }
 
         body {
-            background-color: #030014;
-            color: #ffffff;
+            background-color: #000;
+            color: #00ffcc;
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
         }
 
-        /* Animated Glowing Background Orbs */
-        .bg-glow {
+        /* Matrix Canvas Background */
+        canvas {
             position: absolute;
-            width: 400px;
-            height: 400px;
-            background: linear-gradient(135deg, #ff007f, #7928ca, #00dfd8);
-            filter: blur(100px);
-            border-radius: 50%;
-            z-index: -1;
-            animation: moveOrbs 10s infinite alternate ease-in-out;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
         }
 
-        .bg-glow:nth-child(2) {
-            top: 60%;
-            left: 60%;
-            animation-duration: 15s;
-            background: linear-gradient(135deg, #007cf0, #00dfd8, #7928ca);
-        }
-
-        @keyframes moveOrbs {
-            0% { transform: translate(-50px, -50px) scale(1); }
-            100% { transform: translate(100px, 100px) scale(1.2); }
-        }
-
-        /* Main Container - Glassmorphism */
+        /* RGB Neon Border Animation */
         .container {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 40px;
+            position: relative;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 20px;
+            padding: 50px;
             width: 90%;
-            max-width: 600px;
-            box-shadow: 0 0 50px rgba(121, 40, 202, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.05);
+            max-width: 650px;
             text-align: center;
-            animation: fadeIn 1.2s ease-out;
+            box-shadow: 0 0 50px rgba(0, 255, 204, 0.4);
+            z-index: 2;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -3px; left: -3px; right: -3px; bottom: -3px;
+            border-radius: 22px;
+            background: linear-gradient(45deg, #ff0055, #00ffcc, #7928ca, #ff0000, #00ffcc);
+            background-size: 400%;
+            z-index: -1;
+            animation: rgbBorder 5s linear infinite;
         }
 
-        /* Header / Title */
+        @keyframes rgbBorder {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glitch Title */
         h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            background: linear-gradient(to right, #00dfd8, #007cf0, #ff007f);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(0, 223, 216, 0.5);
+            font-size: 3rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 3px 3px #ff0055, -3px -3px #00ffcc;
+            animation: glitch 1s infinite alternate;
+            margin-bottom: 10px;
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 3px 3px #ff0055, -3px -3px #00ffcc; transform: skew(0deg); }
+            20% { text-shadow: -3px -3px #ff0055, 3px 3px #00ffcc; transform: skew(-5deg); }
+            40% { text-shadow: 3px -3px #ff0055, -3px 3px #00ffcc; transform: skew(5deg); }
+            60% { text-shadow: -3px 3px #ff0055, 3px -3px #00ffcc; transform: skew(0deg); }
+            100% { text-shadow: 3px 3px #ff0055, -3px -3px #00ffcc; transform: skew(0deg); }
         }
 
         p {
-            color: #a0aec0;
+            color: #a5f3fc;
             font-size: 1.1rem;
             margin-bottom: 30px;
+            letter-spacing: 2px;
         }
 
-        /* Glowing Upload/Action Box */
+        /* Dropzone */
         .dropzone {
-            border: 2px dashed rgba(0, 223, 216, 0.5);
-            border-radius: 16px;
-            padding: 40px 20px;
-            background: rgba(0, 223, 216, 0.02);
+            border: 2px dashed #00ffcc;
+            border-radius: 12px;
+            padding: 35px;
+            background: rgba(0, 255, 204, 0.05);
             cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            transition: 0.3s;
         }
 
         .dropzone:hover {
-            border-color: #ff007f;
-            background: rgba(255, 0, 127, 0.05);
-            box-shadow: 0 0 25px rgba(255, 0, 127, 0.4);
-            transform: translateY(-3px);
+            background: rgba(255, 0, 85, 0.15);
+            border-color: #ff0055;
+            box-shadow: 0 0 30px #ff0055;
+            transform: scale(1.02);
         }
 
         .dropzone i {
-            font-size: 3.5rem;
-            color: #00dfd8;
+            font-size: 4rem;
+            color: #00ffcc;
             margin-bottom: 15px;
-            transition: transform 0.3s ease;
+            filter: drop-shadow(0 0 10px #00ffcc);
+            animation: bounce 1.5s infinite;
         }
 
-        .dropzone:hover i {
-            transform: scale(1.1) rotate(10deg);
-            color: #ff007f;
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .dropzone span {
             display: block;
-            font-size: 1.2rem;
-            font-weight: 500;
+            color: #fff;
+            font-size: 1.1rem;
         }
 
-        /* Super Glowing Button */
-        .btn-glow {
+        /* Insane Button */
+        .btn-insane {
             margin-top: 30px;
-            background: linear-gradient(135deg, #7928ca, #ff007f);
+            background: #ff0055;
             color: white;
             border: none;
-            padding: 15px 35px;
-            font-size: 1.2rem;
+            padding: 16px 40px;
+            font-size: 1.3rem;
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 0 25px rgba(255, 0, 127, 0.6);
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px #ff0055, 0 0 40px #ff0055;
+            transition: 0.3s;
+            letter-spacing: 2px;
         }
 
-        .btn-glow:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(255, 0, 127, 0.9), 0 0 80px rgba(121, 40, 202, 0.6);
-            background: linear-gradient(135deg, #ff007f, #7928ca);
+        .btn-insane:hover {
+            background: #00ffcc;
+            color: #000;
+            box-shadow: 0 0 40px #00ffcc, 0 0 80px #00ffcc;
+            transform: scale(1.1) rotate(1deg);
         }
 
-        /* Footer badge */
-        .footer-badge {
+        .footer {
             margin-top: 25px;
-            font-size: 0.9rem;
-            color: #718096;
-        }
-
-        .footer-badge span {
-            color: #00dfd8;
-            font-weight: bold;
+            font-size: 0.8rem;
+            color: #666;
+            letter-spacing: 3px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Glowing Background Lights -->
-    <div class="bg-glow"></div>
-    <div class="bg-glow"></div>
+    <!-- Matrix Background Effect -->
+    <canvas id="matrix"></canvas>
 
     <div class="container">
         <h1>PDF-Tsopy</h1>
-        <p>Η πιο φανταχτερή εμπειρία διαχείρισης PDF μόλις ξεκίνησε! 🚀</p>
+        <p>[ CYBERNETIC PDF ENGINE ACTIVATED ]</p>
 
-        <div class="dropzone" onclick="alert('Εδώ μπορείς να βάλεις τη λειτουργία σου!')">
-            <i class="fa-solid fa-file-pdf"></i>
-            <span>Σύρεε το PDF σου εδώ ή <strong>κάνε κλικ</strong></span>
+        <div class="dropzone" onclick="alert('SYSTEM READY FOR UPLOAD!')">
+            <i class="fa-solid fa-radiation"></i>
+            <span>DROP PDF FILE OR <strong>CLICK TO HACK</strong></span>
         </div>
 
-        <button class="btn-glow">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> Ξεκίνησε Μαγεία
+        <button class="btn-insane" onclick="alert('BOOM! 💥')">
+            <i class="fa-solid fa-bolt"></i> EXECUTE
         </button>
 
-        <div class="footer-badge">
-            Powered by <span>Tsopy274</span> & AI ⚡
+        <div class="footer">
+            TSOPY274 // 2077 EDITION
         </div>
     </div>
 
+    <script>
+        // Matrix Rain Script
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*+-/';
+        const alphabet = katakana + latin;
+
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+
+        const rainDrops = [];
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#00ffcc';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 30);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
 </body>
 </html>
