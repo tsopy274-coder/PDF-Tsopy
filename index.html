@@ -1,268 +1,75 @@
-<!DOCTYPE html>
-<html lang="el">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Meta Tags -->
-    <title>PDF-Tsopy - Δωρεάν PDF Editor για Windows</title>
-    <meta name="description" content="Δωρεάν, γρήγορος και εύκολος επεξεργαστής PDF για Windows. OCR, μετατροπή, σχεδιασμός και υποστήριξη 4 γλωσσών. Χωρίς cloud.">
-    <meta name="keywords" content="PDF editor, Δωρεάν PDF, OCR, PDF σε Word, PDF σε Excel, Ελληνικά PDF, Windows PDF, PDF-Tsopy">
-    <meta name="author" content="tsopy">
-    <meta name="robots" content="index, follow">
+Searched site:tsopy274-coder.github.io/PDF-Tsopy
+Searched "tsopy274-coder" "PDF-Tsopy" OR "PDF" github
+Analyzed HEAD:L1-6
+Analyzing index.html
+Analyzing index.html
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://tsopy274-coder.github.io/PDF-Tsopy/">
+Εδώ είναι ο ακριβής κώδικας για να ενσωματώσετε το **Live Web App** και τα δύο κουμπιά (**«🔴 Live»** και **«📱 Εγκατάσταση στο Κινητό»**) στη σελίδα σας **χωρίς να χαλάσει καθόλου η υπάρχουσα σχεδίαση**:
 
-    <!-- Open Graph (Facebook, LinkedIn, Viber) -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="PDF-Tsopy - Δωρεάν PDF Editor">
-    <meta property="og:description" content="Ο εύκολος τρόπος να επεξεργάζεστε τα PDF σας. OCR, μετατροπή, σχεδιασμός, 4 γλώσσες. Χωρίς cloud.">
-    <meta property="og:url" content="https://tsopy274-coder.github.io/PDF-Tsopy/">
-    <meta property="og:image" content="https://tsopy274-coder.github.io/PDF-Tsopy/pdf-tsopy.png">
-    <meta property="og:locale" content="el_GR">
+---
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="PDF-Tsopy - Δωρεάν PDF Editor">
-    <meta name="twitter:description" content="Ο εύκολος τρόπος να επεξεργάζεστε τα PDF σας. OCR, μετατροπή, σχεδιασμός, 4 γλώσσες.">
-    <meta name="twitter:image" content="https://tsopy274-coder.github.io/PDF-Tsopy/pdf-tsopy.png">
+### 1. Τα Κουμπιά (για την κορυφή / Navigation / Hero)
+Τοποθετήστε τα εκεί που έχετε τα υπόλοιπα κουμπιά (ή στο Hero section):
 
-    <!-- Ενσωματωμένο CSS για το design -->
-    <style>
-        :root {
-            --primary-color: #2563eb;
-            --text-color: #1f2937;
-            --bg-color: #f3f4f6;
-        }
+```html
+<!-- ΚΟΥΜΠΙΑ: LIVE & ΕΓΚΑΤΑΣΤΑΣΗ ΣΤΟ ΚΙΝΗΤΟ -->
+<div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin:20px 0;">
+  <!-- Κουμπί Live (κάνει αυτόματα smooth scroll στο ενσωματωμένο App παρακάτω) -->
+  <a href="#live-app" style="display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg, #ef4444, #f59e0b); color:white; padding:12px 22px; border-radius:12px; font-weight:700; text-decoration:none; box-shadow:0 4px 16px rgba(239,68,68,0.35); transition:transform 0.15s;">
+    <span style="width:10px; height:10px; background:white; border-radius:50%; display:inline-block; animation:pulse 1.5s infinite;"></span>
+    🔴 Live Web App
+  </a>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
+  <!-- Κουμπί για κατέβασμα / εγκατάσταση στο κινητό -->
+  <a href="https://tsopy274-coder.github.io/PDF/" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg, #4f8ef7, #7c3aed); color:white; padding:12px 22px; border-radius:12px; font-weight:700; text-decoration:none; box-shadow:0 4px 16px rgba(79,142,247,0.35); transition:transform 0.15s;">
+    📱 Εγκατάσταση στο Κινητό
+  </a>
+</div>
+```
 
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            text-align: center;
-            padding: 4rem 2rem;
-            position: relative;
-        }
+---
 
-        header h1 {
-            margin: 0;
-            font-size: 3rem;
-            letter-spacing: 1px;
-        }
+### 2. Το Ενσωματωμένο Live App (Τρόπος 3)
+Τοποθετήστε το στο κάτω μέρος της σελίδας σας (π.χ. πριν το footer):
 
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-top: 10px;
-        }
+```html
+<!-- ═══ ΕΝΣΩΜΑΤΩΜΕΝΟ LIVE PDF WEB APP ═══ -->
+<section id="live-app" style="padding:40px 16px; max-width:1250px; margin:0 auto; text-align:center;">
+  <div style="margin-bottom:20px;">
+    <h2 style="font-size:1.8rem; font-weight:800; margin-bottom:8px; color:#ffffff;">
+      🔴 Δοκιμάστε το PDF-Tsopy Live Online
+    </h2>
+    <p style="color:#94a3b8; font-size:0.95rem; max-width:600px; margin:0 auto;">
+      Χωρίς κατέβασμα — δείτε, σχεδιάστε με πένα, περιστρέψτε και αποθηκεύστε PDF άμεσα.
+    </p>
+  </div>
 
-        .container {
-            max-width: 1000px;
-            margin: 3rem auto;
-            padding: 0 1rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
+  <!-- Το πλαίσιο της εφαρμογής -->
+  <div style="width:100%; height:85vh; min-height:650px; border-radius:16px; overflow:hidden; box-shadow:0 12px 40px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.1); background:#0f0f1a;">
+    <iframe 
+      src="https://tsopy274-coder.github.io/PDF/" 
+      style="width:100%; height:100%; border:none; display:block;" 
+      allow="clipboard-read; clipboard-write; fullscreen"
+      loading="lazy"
+      title="PDF-Tsopy Live Web App">
+    </iframe>
+  </div>
+</section>
 
-        .card {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
+<!-- Εφέ παλμού για το κόκκινο Live bullet -->
+<style>
+@keyframes pulse {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.3); }
+  100% { opacity: 1; transform: scale(1); }
+}
+</style>
+```
 
-        .card:hover {
-            transform: translateY(-5px);
-        }
+---
 
-        .card h2 {
-            color: var(--primary-color);
-            margin-top: 0;
-        }
+### Πώς λειτουργεί:
+1. Όταν ο χρήστης πατάει **«🔴 Live Web App»**: Η σελίδα κάνει smooth scroll κατευθείαν στο ενσωματωμένο PDF app.
+2. Όταν ο χρήστης (ειδικά από κινητό) πατάει **«📱 Εγκατάσταση στο Κινητό»**: Ανοίγει κατευθείαν το PWA (`https://tsopy274-coder.github.io/PDF/`) και εμφανίζει άμεσα το banner για προσθήκη στην αρχική οθόνη του κινητού.
 
-        footer {
-            text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
-            background-color: #e5e7eb;
-            color: #6b7280;
-        }
-
-        /* ─── ΚΟΥΜΠΙΑ ─── */
-        .lang-bar {
-            position: absolute;
-            top: 12px;
-            right: 16px;
-            display: flex;
-            gap: 6px;
-        }
-
-        .btn-lang {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 14px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .btn-lang.active {
-            background: white;
-            color: var(--primary-color);
-            border-color: white;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 24px;
-        }
-
-        .btn-live {
-            background: #ef4444;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1rem;
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
-        }
-
-        .btn-mobile {
-            background: white;
-            color: var(--primary-color);
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <!-- ΚΟΥΜΠΙΑ 4 ΓΛΩΣΣΩΝ -->
-        <div class="lang-bar">
-            <button class="btn-lang active" onclick="setLang('el')">🇬🇷 EL</button>
-            <button class="btn-lang" onclick="setLang('en')">🇬🇧 EN</button>
-            <button class="btn-lang" onclick="setLang('fr')">🇫🇷 FR</button>
-            <button class="btn-lang" onclick="setLang('de')">🇩🇪 DE</button>
-        </div>
-
-        <h1>PDF-Tsopy</h1>
-        <p id="heroText">Ο εύκολος τρόπος να επεξεργάζεστε τα αρχεία PDF σας.</p>
-
-        <!-- ΚΟΥΜΠΙΑ LIVE & ΚΙΝΗΤΟ -->
-        <div class="action-buttons">
-            <a href="https://tsopy274-coder.github.io/PDF/" target="_blank" class="btn-live" id="btnLive">
-                🔴 Live
-            </a>
-            <a href="https://tsopy274-coder.github.io/PDF/" target="_blank" class="btn-mobile" id="btnMobile">
-                📱 Στο κινητό
-            </a>
-        </div>
-    </header>
-
-    <main class="container">
-        <section class="card">
-            <h2 id="c1Title">Επεξεργασία</h2>
-            <p id="c1Desc">Αλλάξτε το περιεχόμενο των εγγράφων σας γρήγορα και καθαρά.</p>
-        </section>
-
-        <section class="card">
-            <h2 id="c2Title">Απλό στη χρήση</h2>
-            <p id="c2Desc">Καθαρό περιβάλλον, χωρίς περιττά βήματα.</p>
-        </section>
-
-        <section class="card">
-            <h2 id="c3Title">Τέσσερις γλώσσες</h2>
-            <p id="c3Desc">Ελληνικά, Αγγλικά, Γαλλικά και Γερμανικά.</p>
-        </section>
-    </main>
-
-    <footer>
-        <p id="footerText">&copy; 2024 PDF-Tsopy. Όλα τα δικαιώματα διατηρούνται.</p>
-    </footer>
-
-    <!-- SCRIPT ΓΙΑ ΑΛΛΑΓΗ ΓΛΩΣΣΩΝ -->
-    <script>
-        const langs = {
-            el: {
-                hero: "Ο εύκολος τρόπος να επεξεργάζεστε τα αρχεία PDF σας.",
-                live: "🔴 Live",
-                mobile: "📱 Στο κινητό",
-                c1T: "Επεξεργασία", c1D: "Αλλάξτε το περιεχόμενο των εγγράφων σας γρήγορα και καθαρά.",
-                c2T: "Απλό στη χρήση", c2D: "Καθαρό περιβάλλον, χωρίς περιττά βήματα.",
-                c3T: "Τέσσερις γλώσσες", c3D: "Ελληνικά, Αγγλικά, Γαλλικά και Γερμανικά.",
-                foot: "© 2024 PDF-Tsopy. Όλα τα δικαιώματα διατηρούνται."
-            },
-            en: {
-                hero: "The easy way to edit your PDF files.",
-                live: "🔴 Live",
-                mobile: "📱 On Mobile",
-                c1T: "Editing", c1D: "Change document content quickly and cleanly.",
-                c2T: "Easy to use", c2D: "Clean interface, no unnecessary steps.",
-                c3T: "Four languages", c3D: "Greek, English, French, and German.",
-                foot: "© 2024 PDF-Tsopy. All rights reserved."
-            },
-            fr: {
-                hero: "La façon simple de modifier vos fichiers PDF.",
-                live: "🔴 En direct",
-                mobile: "📱 Sur Mobile",
-                c1T: "Édition", c1D: "Modifiez le contenu de vos documents rapidement et clairement.",
-                c2T: "Simple à utiliser", c2D: "Interface claire, sans étapes inutiles.",
-                c3T: "Quatre langues", c3D: "Grec, Anglais, Français et Allemand.",
-                foot: "© 2024 PDF-Tsopy. Tous droits réservés."
-            },
-            de: {
-                hero: "Der einfache Weg, Ihre PDF-Dateien zu bearbeiten.",
-                live: "🔴 Live",
-                mobile: "📱 Auf dem Handy",
-                c1T: "Bearbeitung", c1D: "Ändern Sie Dokumentinhalte schnell und sauber.",
-                c2T: "Einfach zu bedienen", c2D: "Klare Oberfläche, keine unnötigen Schritte.",
-                c3T: "Vier Sprachen", c3D: "Griechisch, Englisch, Französisch und Deutsch.",
-                foot: "© 2024 PDF-Tsopy. Alle Rechte vorbehalten."
-            }
-        };
-
-        function setLang(l) {
-            const t = langs[l];
-            document.getElementById('heroText').textContent = t.hero;
-            document.getElementById('btnLive').textContent  = t.live;
-            document.getElementById('btnMobile').textContent= t.mobile;
-            document.getElementById('c1Title').textContent  = t.c1T;
-            document.getElementById('c1Desc').textContent   = t.c1D;
-            document.getElementById('c2Title').textContent  = t.c2T;
-            document.getElementById('c2Desc').textContent   = t.c2D;
-            document.getElementById('c3Title').textContent  = t.c3T;
-            document.getElementById('c3Desc').textContent   = t.c3D;
-            document.getElementById('footerText').textContent = t.foot;
-
-            document.querySelectorAll('.btn-lang').forEach(b => {
-                b.classList.toggle('active', b.textContent.includes(l.toUpperCase()));
-            });
-            document.documentElement.lang = l;
-        }
-    </script>
-
-</body>
-</html>
+*(Αν έχετε το αρχείο HTML της σελίδας `PDF-Tsopy` σε κάποιο φάκελο στον υπολογιστή σας, πείτε μου το μονοπάτι του αρχείου και μπορώ να το εισάγω αυτόματα για εσάς!)*
