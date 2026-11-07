@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO Meta Tags -->
-    <title>PDF-Tsopy - Δωρεάν PDF Editor για Windows & Web</title>
+    <title>PDF-Tsopy - Free PDF Editor for Windows & Web</title>
     <meta name="description" content="Δωρεάν, γρήγορος και εύκολος επεξεργαστής PDF για Windows και Web. OCR, μετατροπή, σχεδιασμός και υποστήριξη 4 γλωσσών. Χωρίς cloud.">
     <meta name="keywords" content="PDF editor, Δωρεάν PDF, OCR, PDF σε Word, PDF σε Excel, Ελληνικά PDF, Windows PDF, PDF-Tsopy, Web PDF App">
     <meta name="author" content="tsopy">
@@ -16,7 +16,7 @@
 
     <!-- Open Graph (Facebook, LinkedIn, Viber) -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="PDF-Tsopy - Δωρεάν PDF Editor">
+    <meta property="og:title" content="PDF-Tsopy - PDF Editor">
     <meta property="og:description" content="Ο εύκολος τρόπος να επεξεργάζεστε τα PDF σας. OCR, μετατροπή, σχεδιασμός, 4 γλώσσες. Χωρίς cloud.">
     <meta property="og:url" content="https://tsopy274-coder.github.io/PDF-Tsopy/">
     <meta property="og:image" content="https://tsopy274-coder.github.io/PDF-Tsopy/pdf-tsopy.png">
@@ -24,7 +24,7 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="PDF-Tsopy - Δωρεάν PDF Editor">
+    <meta name="twitter:title" content="PDF-Tsopy - PDF Editor">
     <meta name="twitter:description" content="Ο εύκολος τρόπος να επεξεργάζεστε τα PDF σας. OCR, μετατροπή, σχεδιασμός, 4 γλώσσες.">
     <meta name="twitter:image" content="https://tsopy274-coder.github.io/PDF-Tsopy/pdf-tsopy.png">
 
@@ -50,11 +50,49 @@
             line-height: 1.6;
         }
 
+        /* ─── Top Language Bar ─── */
+        .top-nav {
+            background-color: #1e40af;
+            padding: 8px 16px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .lang-btn.active {
+            background: white;
+            color: var(--primary-color);
+            border-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        /* ─── Header ─── */
         header {
             background-color: var(--primary-color);
             color: white;
             text-align: center;
-            padding: 4rem 1.5rem 3.5rem;
+            padding: 3.5rem 1.5rem 3.5rem;
         }
 
         header h1 {
@@ -64,7 +102,7 @@
         }
 
         header p {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             opacity: 0.95;
             margin-top: 10px;
             margin-bottom: 0;
@@ -213,44 +251,54 @@
 </head>
 <body>
 
+    <!-- ═══ ΕΠΙΛΟΓΗ ΓΛΩΣΣΑΣ ═══ -->
+    <nav class="top-nav">
+        <button class="lang-btn active" data-lang="el">🇬🇷 Ελληνικά</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+        <button class="lang-btn" data-lang="fr">🇫🇷 Français</button>
+        <button class="lang-btn" data-lang="de">🇩🇪 Deutsch</button>
+    </nav>
+
+    <!-- ═══ HEADER ═══ -->
     <header>
         <h1>PDF-Tsopy</h1>
-        <p>Ο εύκολος τρόπος να επεξεργάζεστε τα αρχεία PDF σας.</p>
+        <p id="heroSubtitle">Ο εύκολος τρόπος να επεξεργάζεστε τα αρχεία PDF σας.</p>
 
         <!-- Κουμπιά Live & Εγκατάσταση στο Κινητό -->
         <div class="hero-buttons">
             <a href="#live-app" class="btn-action btn-live">
                 <span class="live-dot"></span>
-                🔴 Live Web App
+                <span id="btnLiveText">🔴 Live Web App</span>
             </a>
-            <a href="https://tsopy274-coder.github.io/PDF/" target="_blank" class="btn-action btn-mobile">
+            <a href="https://tsopy274-coder.github.io/PDF/" target="_blank" class="btn-action btn-mobile" id="btnMobileText">
                 📱 Εγκατάσταση στο Κινητό
             </a>
         </div>
     </header>
 
+    <!-- ═══ ΚΑΡΤΕΣ ΔΥΝΑΤΟΤΗΤΩΝ ═══ -->
     <main class="container">
         <section class="card">
-            <h2>Επεξεργασία</h2>
-            <p>Αλλάξτε το περιεχόμενο των εγγράφων σας γρήγορα και καθαρά.</p>
+            <h2 id="card1Title">Επεξεργασία</h2>
+            <p id="card1Desc">Αλλάξτε το περιεχόμενο των εγγράφων σας γρήγορα και καθαρά.</p>
         </section>
 
         <section class="card">
-            <h2>Απλό στη χρήση</h2>
-            <p>Καθαρό περιβάλλον, χωρίς περιττά βήματα.</p>
+            <h2 id="card2Title">Απλό στη χρήση</h2>
+            <p id="card2Desc">Καθαρό περιβάλλον, χωρίς περιττά βήματα.</p>
         </section>
 
         <section class="card">
-            <h2>Τέσσερις γλώσσες</h2>
-            <p>Ελληνικά, Αγγλικά, Γαλλικά και Γερμανικά.</p>
+            <h2 id="card3Title">Τέσσερις γλώσσες</h2>
+            <p id="card3Desc">Ελληνικά, Αγγλικά, Γαλλικά και Γερμανικά.</p>
         </section>
     </main>
 
-    <!-- ═══ Ενσωματωμένη Εφαρμογή (Live App) ═══ -->
+    <!-- ═══ ΕΝΣΩΜΑΤΩΜΕΝΗ ΕΦΑΡΜΟΓΗ (LIVE APP) ═══ -->
     <section class="live-section" id="live-app">
         <div class="live-section-header">
-            <h2>🔴 Δοκιμάστε το Online</h2>
-            <p>Άνοιγμα, σχεδιασμός με πένα, περιστροφή και αποθήκευση PDF απευθείας στον browser σας.</p>
+            <h2 id="liveTitle">🔴 Δοκιμάστε το Online</h2>
+            <p id="liveDesc">Άνοιγμα, σχεδιασμός με πένα, περιστροφή και αποθήκευση PDF απευθείας στον browser σας.</p>
         </div>
         <div class="iframe-wrapper">
             <iframe 
@@ -262,9 +310,110 @@
         </div>
     </section>
 
+    <!-- ═══ FOOTER ═══ -->
     <footer>
-        <p>&copy; 2024 PDF-Tsopy. Όλα τα δικαιώματα διατηρούνται.</p>
+        <p id="footerText">&copy; 2024 PDF-Tsopy. Όλα τα δικαιώματα διατηρούνται.</p>
     </footer>
+
+    <!-- ═══ JAVASCRIPT ΓΙΑ ΑΛΛΑΓΗ ΓΛΩΣΣΑΣ ═══ -->
+    <script>
+        const translations = {
+            el: {
+                heroSubtitle: "Ο εύκολος τρόπος να επεξεργάζεστε τα αρχεία PDF σας.",
+                btnLiveText: "🔴 Live Web App",
+                btnMobileText: "📱 Εγκατάσταση στο Κινητό",
+                card1Title: "Επεξεργασία",
+                card1Desc: "Αλλάξτε το περιεχόμενο των εγγράφων σας γρήγορα και καθαρά.",
+                card2Title: "Απλό στη χρήση",
+                card2Desc: "Καθαρό περιβάλλον, χωρίς περιττά βήματα.",
+                card3Title: "Τέσσερις γλώσσες",
+                card3Desc: "Ελληνικά, Αγγλικά, Γαλλικά και Γερμανικά.",
+                liveTitle: "🔴 Δοκιμάστε το Online",
+                liveDesc: "Άνοιγμα, σχεδιασμός με πένα, περιστροφή και αποθήκευση PDF απευθείας στον browser σας.",
+                footerText: "© 2024 PDF-Tsopy. Όλα τα δικαιώματα διατηρούνται."
+            },
+            en: {
+                heroSubtitle: "The easy way to view, annotate, and edit your PDF files.",
+                btnLiveText: "🔴 Live Web App",
+                btnMobileText: "📱 Install on Mobile",
+                card1Title: "Editing",
+                card1Desc: "Draw, highlight, rotate and save your documents quickly and cleanly.",
+                card2Title: "Easy to Use",
+                card2Desc: "Clean interface, no complicated menus or steps.",
+                card3Title: "Four Languages",
+                card3Desc: "Greek, English, French, and German.",
+                liveTitle: "🔴 Try it Online Live",
+                liveDesc: "Open, draw, rotate and download PDFs directly in your browser or phone.",
+                footerText: "© 2024 PDF-Tsopy. All rights reserved."
+            },
+            fr: {
+                heroSubtitle: "Le moyen simple d'annoter et modifier vos fichiers PDF.",
+                btnLiveText: "🔴 Application en direct",
+                btnMobileText: "📱 Installer sur Mobile",
+                card1Title: "Édition",
+                card1Desc: "Dessinez, surlignez, pivotez et enregistrez vos documents facilement.",
+                card2Title: "Facile à utiliser",
+                card2Desc: "Interface claire, sans étapes inutiles.",
+                card3Title: "Quatre langues",
+                card3Desc: "Grec, Anglais, Français et Allemand.",
+                liveTitle: "🔴 Essayez en direct",
+                liveDesc: "Ouvrez, dessinez, pivotez et téléchargez des PDF directement dans votre navigateur.",
+                footerText: "© 2024 PDF-Tsopy. Tous droits réservés."
+            },
+            de: {
+                heroSubtitle: "Der einfache Weg, Ihre PDF-Dateien anzuzeigen und zu bearbeiten.",
+                btnLiveText: "🔴 Live Web-App",
+                btnMobileText: "📱 Auf dem Handy installieren",
+                card1Title: "Bearbeitung",
+                card1Desc: "Zeichnen, hervorheben, drehen und speichern Sie Ihre Dokumente schnell.",
+                card2Title: "Einfach zu bedienen",
+                card2Desc: "Klare Benutzeroberfläche, keine unnötigen Schritte.",
+                card3Title: "Vier Sprachen",
+                card3Desc: "Griechisch, Englisch, Französisch und Deutsch.",
+                liveTitle: "🔴 Online ausprobieren",
+                liveDesc: "Öffnen, mit Stift zeichnen, drehen und PDFs direkt im Browser speichern.",
+                footerText: "© 2024 PDF-Tsopy. Alle Rechte vorbehalten."
+            }
+        };
+
+        function setLanguage(lang) {
+            if (!translations[lang]) return;
+            const t = translations[lang];
+
+            document.getElementById('heroSubtitle').textContent = t.heroSubtitle;
+            document.getElementById('btnLiveText').textContent  = t.btnLiveText;
+            document.getElementById('btnMobileText').textContent= t.btnMobileText;
+
+            document.getElementById('card1Title').textContent   = t.card1Title;
+            document.getElementById('card1Desc').textContent    = t.card1Desc;
+            document.getElementById('card2Title').textContent   = t.card2Title;
+            document.getElementById('card2Desc').textContent    = t.card2Desc;
+            document.getElementById('card3Title').textContent   = t.card3Title;
+            document.getElementById('card3Desc').textContent    = t.card3Desc;
+
+            document.getElementById('liveTitle').textContent    = t.liveTitle;
+            document.getElementById('liveDesc').textContent     = t.liveDesc;
+            document.getElementById('footerText').textContent   = t.footerText;
+
+            // Ενημέρωση ενεργού κουμπιού
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            // Αποθήκευση προτίμησης
+            try { localStorage.setItem('pdftsopy_lang', lang); } catch (e) {}
+            document.documentElement.lang = lang;
+        }
+
+        // Event listeners για τα κουμπιά γλώσσας
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+        });
+
+        // Φόρτωση αποθηκευμένης γλώσσας ή αυτόματη επιλογή
+        const savedLang = localStorage.getItem('pdftsopy_lang') || 'el';
+        setLanguage(savedLang);
+    </script>
 
 </body>
 </html>
