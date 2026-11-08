@@ -13,7 +13,7 @@ from pdf_tsopy import network
 
 DEFAULT_GITHUB_REPO = os.getenv(
     "PDF_EQUILIBRIST_UPDATE_REPO",
-    "Bit-Scripts/PDF-Equilibrist",
+    "tsopy274-coder/PDF-Tsopy",
 )
 USER_AGENT = "PDF-Equilibrist-Updater/0.1"
 GITHUB_API_URL = "https://api.github.com/repos"

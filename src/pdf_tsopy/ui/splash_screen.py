@@ -20,7 +20,7 @@ class SplashScreen(QWidget):
         )
         self.setFixedSize(W, H)
 
-        # ── Fond transparent (plus de noir) ──────────────────────────────────
+        # ── Fond transparent ──────────────────────────────────────────────────
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
         self.setAutoFillBackground(False)
 
@@ -29,12 +29,14 @@ class SplashScreen(QWidget):
         bg.setGeometry(0, 0, W, H)
         bg.setStyleSheet("background: transparent;")
         pix = QPixmap()
-        for rel in ("assets/splash.png", "assets/Splashscreen.jpg",
-                    "assets/Splashscreen.png"):
+        
+        # Ψάχνει πρώτα στον φάκελο images, και αν δεν το βρει, στον κεντρικό assets
+        for rel in ("assets/images/splash.png", "assets/splash.png"):
             path = resource_path(rel)
             if path.exists():
                 pix.load(str(path))
                 break
+                
         if not pix.isNull():
             pix = pix.scaled(W, H,
                              Qt.AspectRatioMode.IgnoreAspectRatio,

@@ -309,8 +309,8 @@ class _WelcomePage(QWidget):
     """
     Page d'accueil affichée quand aucun document n'est ouvert.
 
-    Dessine une icône PDF stylisée (rectangle gris + barres vertes) et
-    un message d'instruction via ``paintEvent`` custom (pas de widgets enfants).
+    Dessine le logo de l'application et un message d'instruction via
+    ``paintEvent`` custom (pas de widgets enfants).
 
     Le signal ``open_requested`` est émis au clic, mais n'est pas actuellement
     connecté — le glisser-déposer et le menu Fichier sont les entrées principales.
@@ -321,24 +321,30 @@ class _WelcomePage(QWidget):
         p = QPainter(self)
         p.setRenderHint(QPainter.RenderHint.Antialiasing)
 
-        # Fond sombre uniforme
+        # 1. Φόντο (ίδιο χρώμα με την υπόλοιπη εφαρμογή)
         p.fillRect(self.rect(), QColor("#1E1E1E"))
 
-        # Centre de l'icône
+        # 2. Κέντρο της οθόνης
         cx, cy = self.width() // 2, self.height() // 2 - 40
 
-        # Corps du document (rectangle gris arrondi)
-        p.setPen(Qt.PenStyle.NoPen)
-        p.setBrush(QColor("#2D2D2D"))
-        p.drawRoundedRect(cx - 50, cy - 60, 100, 120, 8, 8)
+        # 3. Φόρτωση και σχεδίαση του δικού σου λογότυπου
+        from PyQt6.QtGui import QPixmap
+        from pdf_tsopy.utils import resource_path
+        
+        logo_path = resource_path("assets/logo/PDF-by-tsopy.png")
+        pixmap = QPixmap(str(logo_path))
+        
+        if not pixmap.isNull():
+            # Κλιμάκωση του λογότυπου (π.χ. μέγιστο μέγεθος 160x160)
+            pixmap = pixmap.scaled(
+                160, 160, 
+                Qt.AspectRatioMode.KeepAspectRatio, 
+                Qt.TransformationMode.SmoothTransformation
+            )
+            # Σχεδίαση της εικόνας στο κέντρο
+            p.drawPixmap(cx - pixmap.width() // 2, cy - pixmap.height() // 2, pixmap)
 
-        # Lignes de texte symboliques (barres vertes de largeur décroissante)
-        p.setBrush(QColor(ACCENT))
-        p.drawRoundedRect(cx - 30, cy - 40, 60, 8, 3, 3)
-        p.drawRoundedRect(cx - 30, cy - 24, 60, 8, 3, 3)
-        p.drawRoundedRect(cx - 30, cy - 8,  40, 8, 3, 3)
-
-        # Message d'instruction sous l'icône
+        # 4. Μήνυμα από κάτω (Το source πρέπει να είναι ίδιο με το .ts)
         p.setPen(QColor("#AAAAAA"))
         p.setFont(QFont("Segoe UI", 13))
         p.drawText(

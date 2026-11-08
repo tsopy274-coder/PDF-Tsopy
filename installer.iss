@@ -2,12 +2,12 @@
 ; Ανοίγει με Inno Setup Compiler
 
 #define MyAppName "HarisPDF"
-#define MyAppVersion "1.0"
+#define MyAppVersion "1.3"
 #define MyAppPublisher "Haris Tsopelas"
 #define MyAppURL "https://github.com/tsopy274-coder/PDF-Tsopy"
-#define MyAppExeName "PDF-Tsopy.exe"
-#define MySourceDir "D:\Deepseek skipartner\PDF-Tsopy-main\dist\PDF-Tsopy"
-#define MyIconFile "D:\Deepseek skipartner\PDF-Tsopy-main\assets\logo\PDF-by-tsopy.ico"
+#define MyAppExeName "PDF-Tsopy-1.3.exe"
+#define MySourceDir "D:\PDF-Tsopy-main\dist\PDF-Tsopy-1.3"
+#define MyIconFile "D:\PDF-Tsopy-main\assets\logo\PDF-by-tsopy.ico"
 
 [Setup]
 AppId={{B8F4E1A2-3C5D-4E6F-9A1B-2C3D4E5F6A7B}
@@ -31,6 +31,12 @@ WizardStyle=modern
 PrivilegesRequired=admin
 ArchitecturesInstallIn64BitMode=x64compatible
 ChangesAssociations=yes
+
+; --- Εδώ προσθέτεις τις γραμμές για τα αρχεία κειμένου ---
+LicenseFile=D:\PDF-Tsopy-main\license.txt
+InfoBeforeFile=D:\PDF-Tsopy-main\readme.txt
+InfoAfterFile=D:\PDF-Tsopy-main\changelog.txt
+; ---------------------------------------------------------
 
 [Languages]
 Name: "greek"; MessagesFile: "translations\Greek.isl"

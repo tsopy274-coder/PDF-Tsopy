@@ -357,23 +357,28 @@ class MainWindow(QWidget):
         act_cve.triggered.connect(self._check_for_cves)
         aide.addAction(act_cve)
 
-        from pdf_tsopy import settings
-        net_menu = aide.addMenu(self.tr("Connexions Internet"))
-        self._act_block_net = QAction(self.tr("Bloquer toutes les connexions Internet"), self)
-        self._act_block_net.setCheckable(True)
-        self._act_block_net.setChecked(settings.network_blocked())
-        self._act_block_net.toggled.connect(self._on_block_network_toggled)
-        net_menu.addAction(self._act_block_net)
+        # =========================================================
+        # ΑΦΑΙΡΕΣΗ ΤΟΥ ΜΕΝΟΥ "Connexions Internet"
+        # =========================================================
+        # from pdf_tsopy import settings
+        # net_menu = aide.addMenu(self.tr("Connexions Internet"))
+        # self._act_block_net = QAction(self.tr("Bloquer toutes les connexions Internet"), self)
+        # self._act_block_net.setCheckable(True)
+        # self._act_block_net.setChecked(settings.network_blocked())
+        # self._act_block_net.toggled.connect(self._on_block_network_toggled)
+        # net_menu.addAction(self._act_block_net)
 
-        self._act_startup_check = QAction(
-            self.tr("Vérifier les mises à jour au démarrage (api.github.com)"), self)
-        self._act_startup_check.setCheckable(True)
-        self._act_startup_check.setChecked(settings.startup_update_check())
-        self._act_startup_check.setEnabled(not settings.network_blocked())
-        self._act_startup_check.toggled.connect(settings.set_startup_update_check)
-        net_menu.addAction(self._act_startup_check)
+        # self._act_startup_check = QAction(
+        #     self.tr("Vérifier les mises à jour au démarrage (api.github.com)"), self)
+        # self._act_startup_check.setCheckable(True)
+        # self._act_startup_check.setChecked(settings.startup_update_check())
+        # self._act_startup_check.setEnabled(not settings.network_blocked())
+        # self._act_startup_check.toggled.connect(settings.set_startup_update_check)
+        # net_menu.addAction(self._act_startup_check)
+        # =========================================================
 
         # ── Ρύθμιση ανάλυσης OCR (DPI) ──────────────────────────────────────
+        from pdf_tsopy import settings  # Χρειάζεται για τις ρυθμίσεις OCR παρακάτω
         ocr_menu = aide.addMenu(self.tr("Ανάλυση OCR (DPI)"))
         _ocr_group = QActionGroup(self)
         _ocr_group.setExclusive(True)

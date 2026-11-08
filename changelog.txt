@@ -1,0 +1,96 @@
+====================================================================
+  PDF-Tsopy - Changelog / Ιστορικό Αλλαγών
+====================================================================
+  Η εγκατάσταση ολοκληρώθηκε με επιτυχία! 🎉
+  Installation completed successfully!
+====================================================================
+
+🌐 Επίσημη Ιστοσελίδα / Official Website:
+   https://tsopy274-coder.github.io/PDF-Tsopy
+
+📧 Υποστήριξη / Support: tsopy@otenet.gr
+
+====================================================================
+🇬🇷 ΕΛΛΗΝΙΚΑ - ΙΣΤΟΡΙΚΟ ΑΛΛΑΓΩΝ
+====================================================================
+
+--------------------------------------------------------------------
+Έκδοση 1.0.0  (Πρώτη σταθερή έκδοση)
+--------------------------------------------------------------------
+✨ ΝΕΑ ΧΑΡΑΚΤΗΡΙΣΤΙΚΑ
+   • Προβολή PDF: άνοιγμα, zoom, περιστροφή, αναζήτηση, εκτύπωση
+   • Επεξεργασία: κείμενο, εικόνες, υδατογράφημα, συμπίεση,
+     OCR, υπογραφή
+   • Μετατροπή: PDF ↔ Office / Εικόνα / Κείμενο / Markdown,
+     OCR → Word/Excel, μαζική επεξεργασία
+   • Σχολιασμός: επισήμανση, διαγραφή, υπογράμμιση, σημειώσεις
+   • Διαχείριση σελίδων: εισαγωγή, διαίρεση, συγχώνευση,
+     αντιστροφή, περικοπή, αλλαγή μεγέθους
+   • Προστασία: κρυπτογράφηση / αποκρυπτογράφηση με κωδικό
+   • Σάρωση: υποστήριξη WIA και Canon IJ Scan Utility
+   • Εκτύπωση: πλήρης διάλογος με duplex, χρώμα, εύρος σελίδων
+   • Πολλαπλά έγγραφα: καρτέλες για ταυτόχρονη εργασία
+   • Γλώσσες: Ελληνικά, Αγγλικά, Γαλλικά, Γερμανικά
+
+🔒 ΙΔΙΩΤΙΚΟΤΗΤΑ
+   • Όλα τα αρχεία υποβάλλονται σε επεξεργασία τοπικά
+   • Καμία αποστολή σε cloud
+   • Προαιρετικός αποκλεισμός Internet
+
+🛠️ ΤΕΧΝΟΛΟΓΙΕΣ
+   • Python · PyQt6 · PyMuPDF · Pillow · PyInstaller · Inno Setup
+
+📜 ΑΔΕΙΑ
+   • GPLv3
+
+--------------------------------------------------------------------
+Μελλοντικές εκδόσεις / Future releases
+--------------------------------------------------------------------
+   • Περισσότερες γλώσσες
+   • Βελτιώσεις OCR
+   • Επιπλέον μορφές εξαγωγής
+   (Οι αλλαγές θα καταγράφονται εδώ σε κάθε νέα έκδοση)
+
+====================================================================
+🇬🇧 ENGLISH - CHANGELOG
+====================================================================
+
+--------------------------------------------------------------------
+Version 1.0.0  (First stable release)
+--------------------------------------------------------------------
+✨ NEW FEATURES
+   • PDF Viewing: open, zoom, rotate, search, print
+   • Editing: text, images, watermark, compression, OCR, signature
+   • Conversion: PDF ↔ Office / Image / Text / Markdown,
+     OCR → Word/Excel, batch processing
+   • Annotation: highlight, strikethrough, underline, notes
+   • Page management: insert, split, merge, reverse, crop, resize
+   • Protection: encrypt / decrypt with password
+   • Scanning: WIA and Canon IJ Scan Utility support
+   • Printing: full dialog with duplex, color, page range
+   • Multi-document: tabs for simultaneous work
+   • Languages: Greek, English, French, German
+
+🔒 PRIVACY
+   • All files are processed locally
+   • No cloud upload
+   • Optional Internet blocking
+
+🛠️ TECHNOLOGIES
+   • Python · PyQt6 · PyMuPDF · Pillow · PyInstaller · Inno Setup
+
+📜 LICENSE
+   • GPLv3
+
+--------------------------------------------------------------------
+Future releases
+--------------------------------------------------------------------
+   • More languages
+   • OCR improvements
+   • Additional export formats
+   (Changes will be recorded here in every new version)
+
+====================================================================
+  Σας ευχαριστούμε που χρησιμοποιείτε το PDF-Tsopy!
+  Thank you for using PDF-Tsopy!
+====================================================================
