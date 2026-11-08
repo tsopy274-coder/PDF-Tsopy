@@ -1,0 +1,14 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+build/
+dist/
+installer_output/
+*.exe
+*.spec
+.idea/
+.vscode/
+*.tar
+*.yml
+*.rar
