@@ -60,3 +60,8 @@ installer_output.rar
 PP-OCRv6_medium_det_onnx/ 
 PP-OCRv6_medium_rec_0515_onnx/ 
 installer_output/ 
+# Απόκρυψη αρχείων με API Keys και μυστικά
+test_gemini.py
+.env
+*.key
+*.secret
