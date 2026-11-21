@@ -1,13 +1,17 @@
-# PDF-Tsopy
+<div align="center">
+  <img src="assets/logo/PDF-by-tsopy.png" alt="PDF-Tsopy Logo" width="150"/>
+  <h1>PDF-Tsopy</h1>
+  <p><b>Δωρεάν, τοπικός επεξεργαστής PDF για Windows — χωρίς cloud, χωρίς συνδρομή.</b></p>
 
-**Δωρεάν, τοπικός επεξεργαστής PDF για Windows — χωρίς cloud, χωρίς συνδρομή.**
-
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Latest release](https://img.shields.io/github/v/release/tsopy274-coder/PDF-Tsopy)](https://github.com/tsopy274-coder/PDF-Tsopy/releases/latest)
-[![Platform](https://img.shields.io/badge/platform-Windows%2010%20%2F%2011-0078D6)](https://github.com/tsopy274-coder/PDF-Tsopy)
-[![Stars](https://img.shields.io/github/stars/tsopy274-coder/PDF-Tsopy?style=social)](https://github.com/tsopy274-coder/PDF-Tsopy/stargazers)
-
-🌐 [Ιστοσελίδα](https://tsopy274-coder.github.io/PDF-Tsopy/) · ⬇️ [Λήψη](https://github.com/tsopy274-coder/PDF-Tsopy/releases/latest) · 📋 [Changelog](CHANGELOG.md) · 🇬🇧 [English](#-english)
+  [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+  [![Latest release](https://img.shields.io/github/v/release/tsopy274-coder/PDF-Tsopy)](https://github.com/tsopy274-coder/PDF-Tsopy/releases/latest)
+  [![Platform](https://img.shields.io/badge/platform-Windows%2010%20%2F%2011-0078D6)](https://github.com/tsopy274-coder/PDF-Tsopy)
+  
+  🌐 <a href="https://tsopy274-coder.github.io/PDF-Tsopy/">Ιστοσελίδα</a> · 
+  ⬇️ <a href="https://github.com/tsopy274-coder/PDF-Tsopy/releases/latest">Λήψη</a> · 
+  📋 <a href="CHANGELOG.md">Changelog</a> · 
+  🇬🇧 <a href="#-english">English</a>
+</div>
 
 ---
 
@@ -18,7 +22,7 @@
 - [Εγκατάσταση](#-εγκατάσταση)
 - [Ιδιωτικότητα](#-ιδιωτικότητα)
 - [Τεχνολογίες](#️-τεχνολογίες)
-- [Συχνές ερωτήσεις](#-συχνές-ερωτήσεις)
+- [Συχνές Ερωτήσεις](#-συχνές-ερωτήσεις)
 - [Υποστήριξη](#-υποστήριξη)
 - [Άδεια](#-άδεια)
 
@@ -49,3 +53,42 @@
 ![Κύριο παράθυρο](docs/screenshots/main.png)
 ![Επεξεργασία κειμένου](docs/screenshots/edit.png)
 ![OCR](docs/screenshots/ocr.png)
+
+---
+<br>
+
+<div align="center">
+  <h2 id="-english">🇬🇧 English</h2>
+  <p><b>Free, local PDF editor for Windows — no cloud, no subscription.</b></p>
+</div>
+
+**PDF-Tsopy** is a free, local PDF editor for Windows, written in Python (PyQt6 + PyMuPDF).
+
+🌐 **Website:** [tsopy274-coder.github.io/PDF-Tsopy](https://tsopy274-coder.github.io/PDF-Tsopy/)
+
+### ✨ Features
+- **View** — open, zoom, rotate, search, print
+- **Edit** — text, images, watermark, compression, OCR, signature
+- **Convert** — PDF ↔ Office / Image / Text / Markdown, OCR → Word/Excel, batch processing
+- **Annotate** — highlight, strikethrough, underline, notes
+- **Pages** — insert, split, merge, reverse, crop, resize
+- **Protect** — encrypt / decrypt with password
+- **Scan** — WIA and Canon IJ Scan Utility support
+- **Print** — full dialog with duplex, color, page range
+- **Multi-document** — tabs for simultaneous work
+- **Languages** — Greek, English, French, German
+
+### 🔒 Privacy
+All files are processed locally. No cloud upload, no telemetry. Optional Internet blocking.
+
+### 🛠️ Technologies
+Python · PyQt6 · PyMuPDF · Pillow · PyInstaller · Inno Setup
+
+### 📦 Installation
+1. Download the installer from [Releases](https://github.com/tsopy274-coder/PDF-Tsopy/releases/latest).
+2. Run `HarisPDF-Setup-x.y.exe` (e.g., `HarisPDF-Setup-1.4.exe`).
+3. Enter the installation password (available for free via email — see Support).
+
+**Requirements:** Windows 10 / 11 (64-bit)
+
+**Verification:** Each release includes a SHA256 checksum in the release notes.
