@@ -11,17 +11,32 @@
 <meta name="keywords" content="PDF editor, δωρεάν PDF, OCR, PDF σε Word, PDF σε Excel, ελληνικό PDF, Windows PDF, PDF-Tsopy">
 <meta name="author" content="tsopy">
 <meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0c0a22">
+<meta name="application-name" content="PDF-Tsopy">
 
 <!-- ===== SEO: Canonical URL ===== -->
 <link rel="canonical" href="https://tsopy274-coder.github.io/PDF-Tsopy/">
 
+<!-- ===== Icons / PWA ===== -->
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="PDF-Tsopy">
+<link rel="manifest" href="manifest.json">
+
 <!-- ===== Open Graph (Facebook, LinkedIn, Viber) ===== -->
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="PDF-Tsopy">
 <meta property="og:title" content="PDF-Tsopy – Δωρεάν PDF Editor">
 <meta property="og:description" content="Ο εύκολος τρόπος να επεξεργάζεστε τα PDF σας. OCR, μετατροπή, σχολιασμός, 4 γλώσσες. Χωρίς cloud.">
 <meta property="og:url" content="https://tsopy274-coder.github.io/PDF-Tsopy/">
 <meta property="og:image" content="https://tsopy274-coder.github.io/PDF-Tsopy/PDF-by-tsopy.png">
+<meta property="og:image:alt" content="PDF-Tsopy – Δωρεάν PDF Editor για Windows">
 <meta property="og:locale" content="el_GR">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:locale:alternate" content="de_DE">
 
 <!-- ===== Twitter Card ===== -->
 <meta name="twitter:card" content="summary_large_image">
@@ -35,19 +50,40 @@
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "PDF-Tsopy",
-  "operatingSystem": "Windows",
+  "softwareVersion": "1.4",
+  "operatingSystem": "Windows 10, Windows 11",
   "applicationCategory": "UtilitiesApplication",
+  "applicationSubCategory": "PDF Editor",
+  "inLanguage": ["el", "en", "fr", "de"],
+  "downloadUrl": "https://github.com/tsopy274-coder/PDF-Tsopy/releases/latest",
+  "installUrl": "https://github.com/tsopy274-coder/PDF-Tsopy/releases/latest",
+  "featureList": [
+    "Επεξεργασία κειμένου και εικόνων σε PDF",
+    "OCR 300/400/500/600 DPI",
+    "Μετατροπή PDF σε Office, εικόνα, κείμενο, Markdown",
+    "Σχολιασμός: επισήμανση, υπογράμμιση, διαγραφή, σημειώσεις",
+    "Διαχείριση σελίδων: εισαγωγή, διαίρεση, συγχώνευση, περικοπή",
+    "Κρυπτογράφηση και αποκρυπτογράφηση με κωδικό",
+    "Σάρωση μέσω WIA και Canon IJ Scan Utility",
+    "Εκτύπωση με duplex, χρώμα και επιλογή σελίδων"
+  ],
   "offers": {
     "@type": "Offer",
     "price": "0",
-    "priceCurrency": "EUR"
+    "priceCurrency": "EUR",
+    "availability": "https://schema.org/InStock"
   },
-  "description": "Δωρεάν, τοπικός επεξεργαστής PDF για Windows με OCR, μετατροπή και σχολιασμό.",
+  "license": "https://www.gnu.org/licenses/gpl-3.0.html",
+  "isAccessibleForFree": true,
+  "description": "Δωρεάν, τοπικός επεξεργαστής PDF για Windows με OCR, μετατροπή και σχολιασμό. Όλα τα αρχεία υποβάλλονται σε επεξεργασία τοπικά, χωρίς cloud.",
   "url": "https://tsopy274-coder.github.io/PDF-Tsopy/",
-  "image": "https://tsopy274-coder.github.io/PDF-Tsopy/PDF-by-tsopy.png"
+  "image": "https://tsopy274-coder.github.io/PDF-Tsopy/PDF-by-tsopy.png",
+  "sameAs": ["https://github.com/tsopy274-coder/PDF-Tsopy"]
 }
 </script>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Inter:wght@400;500&display=swap">
 <style>
 :root{
@@ -127,11 +163,12 @@ h1{font:800 clamp(44px,10vw,84px)/1.02 var(--display);margin:0 0 18px;background
   border-color: var(--cyan);
   box-shadow: 0 0 15px rgba(94,242,255,.3);
 }
-.ocr-buttons button.active {
+.ocr-buttons button[aria-pressed="true"] {
   background: linear-gradient(135deg,var(--pink),#8a5bff);
   border-color: transparent;
   box-shadow: 0 0 18px rgba(255,79,216,.5);
 }
+.ocr-hint{font-size:13.5px;color:var(--mute);margin:14px 0 0;line-height:1.5}
 
 /* --- ΚΟΥΜΠΙΑ --- */
 .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
@@ -141,6 +178,7 @@ h1{font:800 clamp(44px,10vw,84px)/1.02 var(--display);margin:0 0 18px;background
 .primary:hover{box-shadow:0 0 46px rgba(255,209,102,.95)}
 .ghost{color:var(--ink);border:1.5px solid var(--cyan);box-shadow:0 0 18px rgba(94,242,255,.35) inset,0 0 18px rgba(94,242,255,.35)}
 .ghost:hover{box-shadow:0 0 26px rgba(94,242,255,.6) inset,0 0 30px rgba(94,242,255,.6)}
+.ver{font-size:13.5px;color:var(--mute);margin-top:16px}
 
 .feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;max-width:1000px;margin:0 auto;padding:0 20px 80px}
 .card{padding:26px;border-radius:22px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px)}
@@ -163,31 +201,35 @@ footer a{color:var(--cyan)}
 <div class="orb o1"></div><div class="orb o2"></div>
 <header>
   <div class="lang" role="group" aria-label="Language">
-    <button data-l="el">🇬🇷 EL</button><button data-l="en">🇬🇧 EN</button><button data-l="fr">🇫🇷 FR</button><button data-l="de">🇩🇪 DE</button>
+    <button data-l="el" lang="el">🇬🇷 EL</button><button data-l="en" lang="en">🇬🇧 EN</button><button data-l="fr" lang="fr">🇫🇷 FR</button><button data-l="de" lang="de">🇩🇪 DE</button>
   </div>
 </header>
 <main>
   <section class="hero">
-    <img src="PDF-by-tsopy.png" alt="PDF-Tsopy Logo" class="doc-img">
+    <img src="PDF-by-tsopy.png" alt="PDF-Tsopy Logo" class="doc-img" width="150" height="150">
     <h1>PDF-Tsopy</h1>
     <p class="sub" data-k="sub"></p>
 
     <!-- ΕΠΙΛΟΓΗ OCR DPI -->
     <div class="ocr-box">
-      <label data-k="ocr_label"></label>
-      <div class="ocr-buttons">
-        <button class="active">300 DPI</button>
-        <button>400 DPI</button>
-        <button>500 DPI</button>
-        <button>600 DPI</button>
+      <label id="ocr-label" data-k="ocr_label"></label>
+      <div class="ocr-buttons" role="group" aria-labelledby="ocr-label">
+        <button type="button" data-dpi="300" aria-pressed="true">300 DPI</button>
+        <button type="button" data-dpi="400" aria-pressed="false">400 DPI</button>
+        <button type="button" data-dpi="500" aria-pressed="false">500 DPI</button>
+        <button type="button" data-dpi="600" aria-pressed="false">600 DPI</button>
       </div>
+      <p class="ocr-hint" data-k="ocr_hint"></p>
     </div>
 
     <div class="cta">
-      <!-- Η ΑΛΛΑΓΗ ΕΙΝΑΙ ΕΔΩ: Κατεβάζει απευθείας το v1.4 -->
-      <a class="btn primary" data-k="dl" href="https://github.com/tsopy274-coder/PDF-Tsopy/releases/latest/download/HarisPDF-Setup-1.4.exe"></a>
-      <a class="btn ghost" data-k="gh" href="https://github.com/tsopy274-coder/PDF-Tsopy"></a>
+      <!-- Πάντα στην τελευταία έκδοση. Το «latest» αποφεύγει το hardcoded όνομα αρχείου. -->
+      <a class="btn primary" data-k="dl" rel="noopener"
+         href="https://github.com/tsopy274-coder/PDF-Tsopy/releases/latest"></a>
+      <a class="btn ghost" data-k="gh" rel="noopener"
+         href="https://github.com/tsopy274-coder/PDF-Tsopy"></a>
     </div>
+    <p class="ver"><span data-k="ver"></span></p>
   </section>
   <section class="feat">
     <div class="card"><div class="dot"></div><h2 data-k="t1"></h2><p data-k="d1"></p></div>
@@ -201,7 +243,9 @@ const T={
 el:{
   sub:"Ο εύκολος τρόπος να επεξεργάζεστε τα αρχεία PDF σας.",
   ocr_label:"Ανάλυση OCR (DPI)",
+  ocr_hint:"Η προεπιλεγμένη ανάλυση της εφαρμογής. Αλλάζει και μέσα από το μενού της εφαρμογής.",
   dl:"Λήψη",gh:"Κώδικας στο GitHub",
+  ver:"Τελευταία έκδοση: v1.4 · Windows 10/11 · Δωρεάν (GPLv3)",
   t1:"Επεξεργασία",d1:"Αλλάξτε το περιεχόμενο των εγγράφων σας γρήγορα και καθαρά.",
   t2:"Απλό στη χρήση",d2:"Καθαρό περιβάλλον, χωρίς περιττά βήματα.",
   t3:"Τέσσερις γλώσσες",d3:"Ελληνικά, Αγγλικά, Γαλλικά και Γερμανικά.",
@@ -210,7 +254,9 @@ el:{
 en:{
   sub:"The easy way to edit your PDF files.",
   ocr_label:"OCR Resolution (DPI)",
+  ocr_hint:"The app's default OCR resolution. It can also be changed from the app menu.",
   dl:"Download",gh:"Code on GitHub",
+  ver:"Latest version: v1.4 · Windows 10/11 · Free (GPLv3)",
   t1:"Edit",d1:"Change the content of your documents quickly and cleanly.",
   t2:"Simple to use",d2:"A clean interface with no extra steps.",
   t3:"Four languages",d3:"Greek, English, French and German.",
@@ -219,7 +265,9 @@ en:{
 fr:{
   sub:"La façon simple de modifier vos fichiers PDF.",
   ocr_label:"Résolution OCR (DPI)",
+  ocr_hint:"Résolution OCR par défaut de l'application. Modifiable aussi depuis le menu.",
   dl:"Télécharger",gh:"Code sur GitHub",
+  ver:"Dernière version : v1.4 · Windows 10/11 · Gratuit (GPLv3)",
   t1:"Modifier",d1:"Changez le contenu de vos documents rapidement et proprement.",
   t2:"Simple à utiliser",d2:"Une interface claire, sans étapes inutiles.",
   t3:"Quatre langues",d3:"Grec, anglais, français et allemand.",
@@ -228,7 +276,9 @@ fr:{
 de:{
   sub:"Der einfache Weg, Ihre PDF-Dateien zu bearbeiten.",
   ocr_label:"OCR-Auflösung (DPI)",
+  ocr_hint:"Standard-OCR-Auflösung der App. Auch über das App-Menü änderbar.",
   dl:"Herunterladen",gh:"Code auf GitHub",
+  ver:"Neueste Version: v1.4 · Windows 10/11 · Kostenlos (GPLv3)",
   t1:"Bearbeiten",d1:"Ändern Sie den Inhalt Ihrer Dokumente schnell und sauber.",
   t2:"Einfach zu bedienen",d2:"Eine klare Oberfläche ohne unnötige Schritte.",
   t3:"Vier Sprachen",d3:"Griechisch, Englisch, Französisch und Deutsch.",
@@ -238,22 +288,35 @@ de:{
 
 function setLang(l){
   document.documentElement.lang=l;
-  document.querySelectorAll('[data-k]').forEach(e=>e.textContent=T[l][e.dataset.k]);
+  document.querySelectorAll('[data-k]').forEach(e=>{ if(T[l][e.dataset.k]!==undefined) e.textContent=T[l][e.dataset.k]; });
   document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===l));
   try{localStorage.setItem('lang',l)}catch(e){}
 }
 
-// Λειτουργία για τα κουμπιά OCR
-document.querySelectorAll('.ocr-buttons button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.ocr-buttons button').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+// Κουμπιά OCR: πραγματική επιλογή με aria-pressed + αποθήκευση προτίμησης
+const ocrBtns=document.querySelectorAll('.ocr-buttons button');
+ocrBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    ocrBtns.forEach(b=>b.setAttribute('aria-pressed', b===btn ? 'true' : 'false'));
+    try{localStorage.setItem('ocrDpi',btn.dataset.dpi)}catch(e){}
+    // Το DPI περνά στη σελίδα λήψης, ώστε να φτάνει στον installer
+    const dl=document.querySelector('.btn.primary');
+    if(dl){ dl.href='https://github.com/tsopy274-coder/PDF-Tsopy/releases/latest'; }
   });
 });
+try{
+  const saved=localStorage.getItem('ocrDpi');
+  if(saved){ocrBtns.forEach(b=>b.setAttribute('aria-pressed', b.dataset.dpi===saved ? 'true':'false'));}
+}catch(e){}
 
 document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.l)));
 let s='el';try{s=localStorage.getItem('lang')||'el'}catch(e){}
 setLang(T[s]?s:'el');
+
+// Service worker (PWA)
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('service-worker.js').catch(()=>{}));
+}
 </script>
 </body>
 </html>
