@@ -1,5 +1,18 @@
 # PDF-Tsopy — Free PDF Editor for Windows
+<div align="center">
+  <img src="PDF-by-tsopy.png" alt="PDF-by-tsopy logo" width="150"/>
+  <h1>PDF-Tsopy</h1>
+  <p><b>Δωρεάν, τοπικός επεξεργαστής PDF για Windows — χωρίς cloud, χωρίς συνδρομή.</b></p>
 
+  [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+  [![Latest release](https://img.shields.io/github/v/release/tsopy274-coder/PDF-Tsopy)](https://github.com/tsopy274-coder/PDF-Tsopy/releases/latest)
+  [![Platform](https://img.shields.io/badge/platform-Windows%2010%20%2F%2011-0078D6)](https://github.com/tsopy274-coder/PDF-Tsopy)
+  
+  🌐 <a href="https://tsopy274-coder.github.io/PDF-Tsopy/">Ιστοσελίδα</a> · 
+  ⬇️ <a href="https://github.com/tsopy274-coder/PDF-Tsopy/releases/latest">Λήψη</a> · 
+  📋 <a href="CHANGELOG.md">Changelog</a> · 
+  🇬🇧 <a href="#-english">English</a>
+</div>
 <p align="center">
   <img src="PDF-by-tsopy.png" alt="PDF-Tsopy Logo" width="180">
 </p>
