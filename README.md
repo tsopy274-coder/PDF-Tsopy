@@ -27,7 +27,19 @@
 - [Άδεια](#-άδεια)
 
 ---
+### 📸 Στιγμιότυπα / Screenshots
 
+<div align="center">
+  <img src="screenshot3.png" alt="Κεντρική Οθόνη - Main Window" width="100%">
+  <br><br>
+  <img src="screenshot1.png" alt="Εκκίνηση - Splash" width="48%">
+  <img src="screenshot2.png" alt="Φόρτωση - Loading" width="48%">
+</div>
+
+---
+
+### 🇬🇧 Screenshots
+*(Οι εικόνες είναι ίδιες για όλες τις γλώσσες, απλώς η εφαρμογή αλλάζει γλώσσα).*
 ## 🎯 Τι είναι
 Το **PDF-Tsopy** είναι ένας δωρεάν επεξεργαστής PDF για Windows, γραμμένος σε Python (PyQt6 + PyMuPDF). Ανοίγει, επεξεργάζεται, μετατρέπει, σχολιάζει, προστατεύει και εκτυπώνει PDF αρχεία — όλα **τοπικά** στον υπολογιστή σας, χωρίς αποστολή δεδομένων σε cloud.
 
