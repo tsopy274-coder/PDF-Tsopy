@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/logo/splash_icon.png" alt="PDF-Tsopy Logo" width="150"/>
+  <img src="assets/logo/PDF-by-tsopy.png" alt="PDF-Tsopy Logo" width="150"/>
   <h1>PDF-Tsopy</h1>
   <p><b>Δωρεάν, τοπικός επεξεργαστής PDF για Windows — χωρίς cloud, χωρίς συνδρομή.</b></p>
 
