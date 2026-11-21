@@ -13,28 +13,6 @@
   📋 <a href="CHANGELOG.md">Changelog</a> · 
   🇬🇧 <a href="#-english">English</a>
 </div>
-<p align="center">
-  <img src="PDF-by-tsopy.png" alt="PDF-Tsopy Logo" width="180">
-</p>
-
-<h2 align="center">A Powerful PDF Toolkit. Completely Free.</h2>
-
-<p align="center">
-  **Edit · Convert · OCR · Annotate · Protect · Print**
-</p>
-
-<p align="center">
-  <a href="https://tsopy274-coder.github.io/PDF-Tsopy/">🌐 Official Website</a> ·
-  <a href="https://github.com/tsopy274-coder/PDF-Tsopy/releases/latest">⬇ Download</a> ·
-  <a href="CHANGELOG.md">📋 Changelog</a>
-</p>
-
-<p align="center">
-  ![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-blue)
-  ![Language](https://img.shields.io/badge/Language-Python-yellow)
-  ![License](https://img.shields.io/badge/License-GPL--3.0-green)
-  ![Languages](https://img.shields.io/badge/Languages-4-orange)
-</p>
 
 ---
 
