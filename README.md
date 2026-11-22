@@ -1,6 +1,6 @@
 # PDF-Tsopy — Free PDF Editor for Windows
 <div align="center">
-  <img src="PDF-by-tsopy.png" alt="PDF-by-tsopy logo" width="150"/>
+  <img src="PDF-by-tsopy.webp" alt="PDF-by-tsopy logo" width="150"/> 
   <h1>PDF-Tsopy</h1>
   <p><b>Δωρεάν, τοπικός επεξεργαστής PDF για Windows — χωρίς cloud, χωρίς συνδρομή.</b></p>
 
