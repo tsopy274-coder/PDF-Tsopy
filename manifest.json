@@ -12,15 +12,15 @@
   "categories": ["productivity", "utilities"],
   "icons": [
     {
-      "src": "gear.png",
+      "src": "PDF-by-tsopy.webp",
       "sizes": "192x192",
-      "type": "image/png",
+      "type": "image/webp",
       "purpose": "any maskable"
     },
     {
-      "src": "gear.png",
+      "src": "PDF-by-tsopy.webp",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/webp",
       "purpose": "any maskable"
     }
   ],
@@ -31,7 +31,7 @@
       "short_name": "Άνοιγμα",
       "description": "Άνοιξε ένα PDF αρχείο",
       "url": "./?action=open",
-      "icons": [{ "src": "gear.png", "sizes": "192x192" }]
+      "icons": [{ "src": "PDF-by-tsopy.webp", "sizes": "192x192", "type": "image/webp" }]
     }
   ]
 }
