@@ -80,15 +80,6 @@ Your documents remain under your control.
 - 64-bit operating system
 - Internet connection only when required for optional services or installation procedures.
 
-### 📥 Download & Installation
-
-1. Visit the [Latest Releases](https://github.com/tsopy274-coder/PDF-Tsopy/releases/latest) page.
-2. Download the latest Windows installer.
-3. Run the installer.
-4. Follow the installation instructions.
-
-The installation password is provided free of charge via email, as described by the project.
-
 ### 🛠️ Built With
 
 - Python
