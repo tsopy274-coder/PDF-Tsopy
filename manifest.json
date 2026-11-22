@@ -18,7 +18,7 @@
       "purpose": "any maskable"
     },
     {
-      "src": "PDF-by-tsopy.png",
+      "src": "gear.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -31,7 +31,7 @@
       "short_name": "Άνοιγμα",
       "description": "Άνοιξε ένα PDF αρχείο",
       "url": "./?action=open",
-      "icons": [{ "src": "PDF-by-tsopy.png", "sizes": "192x192" }]
+      "icons": [{ "src": "gear.png", "sizes": "192x192" }]
     }
   ]
 }
