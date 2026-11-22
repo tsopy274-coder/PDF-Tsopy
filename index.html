@@ -119,14 +119,17 @@ header{display:flex;justify-content:flex-end;padding:18px 20px}
 button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .hero{text-align:center;padding:30px 20px 70px;max-width:820px;margin:0 auto}
 
-/* --- LOGO --- */
+/* --- LOGO χωρίς σκληρό περίγραμμα --- */
 .doc-img{
   display:block;
-  width:150px;
+  width:160px;
   height:auto;
   margin:0 auto 34px;
-  border-radius:20px;
-  filter:drop-shadow(0 0 30px rgba(255,79,216,.5)) drop-shadow(0 0 60px rgba(94,242,255,.4));
+  border-radius:28px;
+  mix-blend-mode:lighten;
+  -webkit-mask-image:radial-gradient(circle, #000 68%, transparent 100%);
+  mask-image:radial-gradient(circle, #000 68%, transparent 100%);
+  filter:drop-shadow(0 0 24px rgba(94,242,255,.35));
   animation:float 5s ease-in-out infinite;
 }
 
@@ -222,7 +225,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </header>
 <main>
   <section class="hero">
-    <img class="doc-img" src="PDF-by-tsopy.webp" alt="PDF-by-tsopy logo" width="150"/>
+    <img class="doc-img" src="PDF-by-tsopy.webp" alt="PDF-by-tsopy logo" width="160"/>
     <h1>PDF-Tsopy</h1>
     <p class="sub" data-k="sub"></p>
 
