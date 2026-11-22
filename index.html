@@ -6,6 +6,15 @@
 <meta name="google-site-verification" content="PcHpszEOSU2GcQ1EAThcCo5rpscDtmTA2u8pq8guc38" />
 <title>PDF-Tsopy – Δωρεάν PDF Editor για Windows</title>
 
+<!-- ===== Google Tag Manager ===== -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-M9CC2559"></script>
+<!-- ===== End Google Tag Manager ===== -->
+
 <!-- ===== SEO: Meta Tags ===== -->
 <meta name="description" content="Δωρεάν, τοπικός επεξεργαστής PDF για Windows. OCR, μετατροπή, σχολιασμός, προστασία και υποστήριξη 4 γλωσσών. Χωρίς cloud, με έμφαση στην ιδιωτικότητα.">
 <meta name="keywords" content="PDF editor, δωρεάν PDF, OCR, PDF σε Word, PDF σε Excel, ελληνικό PDF, Windows PDF, PDF-Tsopy">
@@ -197,15 +206,23 @@ footer a{color:var(--cyan)}
 </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M9CC2559"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
 <div class="orb o1"></div><div class="orb o2"></div>
 <header>
   <div class="lang" role="group" aria-label="Language">
-    <button data-l="el" lang="el">🇬🇷 EL</button><button data-l="en" lang="en">🇬🇧 EN</button><button data-l="fr" lang="fr">🇫🇷 FR</button><button data-l="de" lang="de">🇩🇪 DE</button>
+    <button type="button" data-l="el" lang="el">🇬🇷 EL</button>
+    <button type="button" data-l="en" lang="en">🇬🇧 EN</button>
+    <button type="button" data-l="fr" lang="fr">🇫🇷 FR</button>
+    <button type="button" data-l="de" lang="de">🇩🇪 DE</button>
   </div>
 </header>
 <main>
   <section class="hero">
-    <img src="PDF-by-tsopy.webp" alt="PDF-by-tsopy logo" width="150"/>
+    <img class="doc-img" src="PDF-by-tsopy.webp" alt="PDF-by-tsopy logo" width="150"/>
     <h1>PDF-Tsopy</h1>
     <p class="sub" data-k="sub"></p>
 
@@ -222,10 +239,9 @@ footer a{color:var(--cyan)}
     </div>
 
     <div class="cta">
-      <!-- Πάντα στην τελευταία έκδοση. Το «latest» αποφεύγει το hardcoded όνομα αρχείου. -->
-      <a class="btn primary" data-k="dl" rel="noopener"
+      <a class="btn primary" id="download-btn" data-k="dl" rel="noopener"
          href="https://github.com/tsopy274-coder/PDF-Tsopy/releases/latest"></a>
-      <a class="btn ghost" data-k="gh" rel="noopener"
+      <a class="btn ghost" id="github-btn" data-k="gh" rel="noopener"
          href="https://github.com/tsopy274-coder/PDF-Tsopy"></a>
     </div>
     <p class="ver"><span data-k="ver"></span></p>
@@ -236,85 +252,184 @@ footer a{color:var(--cyan)}
     <div class="card"><div class="dot"></div><h2 data-k="t3"></h2><p data-k="d3"></p></div>
   </section>
 </main>
-<footer><span data-k="ft"></span> <a href="https://github.com/tsopy274-coder/PDF-Tsopy">GitHub</a></footer>
+<footer><span data-k="ft"></span> <a id="footer-github-link" href="https://github.com/tsopy274-coder/PDF-Tsopy">GitHub</a></footer>
+
 <script>
-const T={
-el:{
-  sub:"Ο εύκολος τρόπος να επεξεργάζεστε τα αρχεία PDF σας.",
-  ocr_label:"Ανάλυση OCR (DPI)",
-  ocr_hint:"Η προεπιλεγμένη ανάλυση της εφαρμογής. Αλλάζει και μέσα από το μενού της εφαρμογής.",
-  dl:"Λήψη",gh:"Κώδικας στο GitHub",
-  ver:"Τελευταία έκδοση: v1.4 · Windows 10/11 · Δωρεάν (GPLv3)",
-  t1:"Επεξεργασία",d1:"Αλλάξτε το περιεχόμενο των εγγράφων σας γρήγορα και καθαρά.",
-  t2:"Απλό στη χρήση",d2:"Καθαρό περιβάλλον, χωρίς περιττά βήματα.",
-  t3:"Τέσσερις γλώσσες",d3:"Ελληνικά, Αγγλικά, Γαλλικά και Γερμανικά.",
-  ft:"Φτιαγμένο από τον tsopy."
-},
-en:{
-  sub:"The easy way to edit your PDF files.",
-  ocr_label:"OCR Resolution (DPI)",
-  ocr_hint:"The app's default OCR resolution. It can also be changed from the app menu.",
-  dl:"Download",gh:"Code on GitHub",
-  ver:"Latest version: v1.4 · Windows 10/11 · Free (GPLv3)",
-  t1:"Edit",d1:"Change the content of your documents quickly and cleanly.",
-  t2:"Simple to use",d2:"A clean interface with no extra steps.",
-  t3:"Four languages",d3:"Greek, English, French and German.",
-  ft:"Made by tsopy."
-},
-fr:{
-  sub:"La façon simple de modifier vos fichiers PDF.",
-  ocr_label:"Résolution OCR (DPI)",
-  ocr_hint:"Résolution OCR par défaut de l'application. Modifiable aussi depuis le menu.",
-  dl:"Télécharger",gh:"Code sur GitHub",
-  ver:"Dernière version : v1.4 · Windows 10/11 · Gratuit (GPLv3)",
-  t1:"Modifier",d1:"Changez le contenu de vos documents rapidement et proprement.",
-  t2:"Simple à utiliser",d2:"Une interface claire, sans étapes inutiles.",
-  t3:"Quatre langues",d3:"Grec, anglais, français et allemand.",
-  ft:"Créé par tsopy."
-},
-de:{
-  sub:"Der einfache Weg, Ihre PDF-Dateien zu bearbeiten.",
-  ocr_label:"OCR-Auflösung (DPI)",
-  ocr_hint:"Standard-OCR-Auflösung der App. Auch über das App-Menü änderbar.",
-  dl:"Herunterladen",gh:"Code auf GitHub",
-  ver:"Neueste Version: v1.4 · Windows 10/11 · Kostenlos (GPLv3)",
-  t1:"Bearbeiten",d1:"Ändern Sie den Inhalt Ihrer Dokumente schnell und sauber.",
-  t2:"Einfach zu bedienen",d2:"Eine klare Oberfläche ohne unnötige Schritte.",
-  t3:"Vier Sprachen",d3:"Griechisch, Englisch, Französisch und Deutsch.",
-  ft:"Erstellt von tsopy."
-}
+window.dataLayer = window.dataLayer || [];
+
+const T = {
+  el: {
+    sub: "Ο εύκολος τρόπος να επεξεργάζεστε τα αρχεία PDF σας.",
+    ocr_label: "Ανάλυση OCR (DPI)",
+    ocr_hint: "Η προεπιλεγμένη ανάλυση της εφαρμογής. Αλλάζει και μέσα από το μενού της εφαρμογής.",
+    dl: "Λήψη",
+    gh: "Κώδικας στο GitHub",
+    ver: "Τελευταία έκδοση: v1.4 · Windows 10/11 · Δωρεάν (GPLv3)",
+    t1: "Επεξεργασία",
+    d1: "Αλλάξτε το περιεχόμενο των εγγράφων σας γρήγορα και καθαρά.",
+    t2: "Απλό στη χρήση",
+    d2: "Καθαρό περιβάλλον, χωρίς περιττά βήματα.",
+    t3: "Τέσσερις γλώσσες",
+    d3: "Ελληνικά, Αγγλικά, Γαλλικά και Γερμανικά.",
+    ft: "Φτιαγμένο από τον tsopy."
+  },
+  en: {
+    sub: "The easy way to edit your PDF files.",
+    ocr_label: "OCR Resolution (DPI)",
+    ocr_hint: "The app's default OCR resolution. It can also be changed from the app menu.",
+    dl: "Download",
+    gh: "Code on GitHub",
+    ver: "Latest version: v1.4 · Windows 10/11 · Free (GPLv3)",
+    t1: "Edit",
+    d1: "Change the content of your documents quickly and cleanly.",
+    t2: "Simple to use",
+    d2: "A clean interface with no extra steps.",
+    t3: "Four languages",
+    d3: "Greek, English, French and German.",
+    ft: "Made by tsopy."
+  },
+  fr: {
+    sub: "La façon simple de modifier vos fichiers PDF.",
+    ocr_label: "Résolution OCR (DPI)",
+    ocr_hint: "Résolution OCR par défaut de l'application. Modifiable aussi depuis le menu.",
+    dl: "Télécharger",
+    gh: "Code sur GitHub",
+    ver: "Dernière version : v1.4 · Windows 10/11 · Gratuit (GPLv3)",
+    t1: "Modifier",
+    d1: "Changez le contenu de vos documents rapidement et proprement.",
+    t2: "Simple à utiliser",
+    d2: "Une interface claire, sans étapes inutiles.",
+    t3: "Quatre langues",
+    d3: "Grec, anglais, français et allemand.",
+    ft: "Créé par tsopy."
+  },
+  de: {
+    sub: "Der einfache Weg, Ihre PDF-Dateien zu bearbeiten.",
+    ocr_label: "OCR-Auflösung (DPI)",
+    ocr_hint: "Standard-OCR-Auflösung der App. Auch über das App-Menü änderbar.",
+    dl: "Herunterladen",
+    gh: "Code auf GitHub",
+    ver: "Neueste Version: v1.4 · Windows 10/11 · Kostenlos (GPLv3)",
+    t1: "Bearbeiten",
+    d1: "Ändern Sie den Inhalt Ihrer Dokumente schnell und sauber.",
+    t2: "Einfach zu bedienen",
+    d2: "Eine klare Oberfläche ohne unnötige Schritte.",
+    t3: "Vier Sprachen",
+    d3: "Griechisch, Englisch, Französisch und Deutsch.",
+    ft: "Erstellt von tsopy."
+  }
 };
 
-function setLang(l){
-  document.documentElement.lang=l;
-  document.querySelectorAll('[data-k]').forEach(e=>{ if(T[l][e.dataset.k]!==undefined) e.textContent=T[l][e.dataset.k]; });
-  document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===l));
-  try{localStorage.setItem('lang',l)}catch(e){}
+let currentLang = "el";
+let currentDpi = "300";
+
+function pushEvent(payload) {
+  window.dataLayer.push(payload);
 }
 
-// Κουμπιά OCR: πραγματική επιλογή με aria-pressed + αποθήκευση προτίμησης
-const ocrBtns=document.querySelectorAll('.ocr-buttons button');
-ocrBtns.forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    ocrBtns.forEach(b=>b.setAttribute('aria-pressed', b===btn ? 'true' : 'false'));
-    try{localStorage.setItem('ocrDpi',btn.dataset.dpi)}catch(e){}
-    // Το DPI περνά στη σελίδα λήψης, ώστε να φτάνει στον installer
-    const dl=document.querySelector('.btn.primary');
-    if(dl){ dl.href='https://github.com/tsopy274-coder/PDF-Tsopy/releases/latest'; }
+function setLang(l, trackEvent = false) {
+  currentLang = T[l] ? l : "el";
+  document.documentElement.lang = currentLang;
+
+  document.querySelectorAll("[data-k]").forEach((e) => {
+    if (T[currentLang][e.dataset.k] !== undefined) {
+      e.textContent = T[currentLang][e.dataset.k];
+    }
+  });
+
+  document.querySelectorAll(".lang button").forEach((b) => {
+    b.setAttribute("aria-pressed", String(b.dataset.l === currentLang));
+  });
+
+  try {
+    localStorage.setItem("lang", currentLang);
+  } catch (e) {}
+
+  if (trackEvent) {
+    pushEvent({
+      event: "language_change",
+      language: currentLang
+    });
+  }
+}
+
+// Κουμπιά γλώσσας
+document.querySelectorAll(".lang button").forEach((b) => {
+  b.addEventListener("click", () => setLang(b.dataset.l, true));
+});
+
+// Κουμπιά OCR DPI
+const ocrBtns = document.querySelectorAll(".ocr-buttons button");
+ocrBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    currentDpi = btn.dataset.dpi;
+    ocrBtns.forEach((b) => {
+      b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+    });
+
+    try {
+      localStorage.setItem("ocrDpi", currentDpi);
+    } catch (e) {}
+
+    pushEvent({
+      event: "ocr_dpi_select",
+      ocr_dpi: Number(currentDpi),
+      language: currentLang
+    });
   });
 });
-try{
-  const saved=localStorage.getItem('ocrDpi');
-  if(saved){ocrBtns.forEach(b=>b.setAttribute('aria-pressed', b.dataset.dpi===saved ? 'true':'false'));}
-}catch(e){}
 
-document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.l)));
-let s='el';try{s=localStorage.getItem('lang')||'el'}catch(e){}
-setLang(T[s]?s:'el');
+// Ανάκτηση αποθηκευμένων προτιμήσεων
+try {
+  const savedDpi = localStorage.getItem("ocrDpi");
+  if (savedDpi && [...ocrBtns].some((b) => b.dataset.dpi === savedDpi)) {
+    currentDpi = savedDpi;
+    ocrBtns.forEach((b) => {
+      b.setAttribute("aria-pressed", b.dataset.dpi === savedDpi ? "true" : "false");
+    });
+  }
+} catch (e) {}
+
+let savedLang = "el";
+try {
+  savedLang = localStorage.getItem("lang") || "el";
+} catch (e) {}
+setLang(savedLang, false);
+
+// Custom event στο κουμπί Λήψη
+const downloadBtn = document.getElementById("download-btn");
+if (downloadBtn) {
+  downloadBtn.addEventListener("click", () => {
+    pushEvent({
+      event: "download_click",
+      app_name: "PDF-Tsopy",
+      version: "1.4",
+      platform: "Windows",
+      ocr_dpi: Number(currentDpi),
+      language: currentLang
+    });
+  });
+}
+
+// Custom event στα links του GitHub
+["github-btn", "footer-github-link"].forEach((id) => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.addEventListener("click", () => {
+      pushEvent({
+        event: "github_click",
+        link_location: id,
+        language: currentLang
+      });
+    });
+  }
+});
 
 // Service worker (PWA)
-if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('service-worker.js').catch(()=>{}));
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("service-worker.js").catch(() => {});
+  });
 }
 </script>
 </body>
