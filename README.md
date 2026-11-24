@@ -167,7 +167,7 @@ Every star and suggestion helps the project grow!
 
 1. Επισκέψου τη σελίδα [Τελευταίων Εκδόσεων](https://github.com/tsopy274-coder/PDF-Tsopy/releases/latest).
 2. Κατέβασε τον τελευταίο εγκαταστάτη για Windows.
-3. **Για να λάβεις τον κωδικό εγκατάστασης, στείλε μήνυμα στο [tsopy274@gmail.com](mailto:tsopy274@gmail.com?subject=PDF-Tsopy%20-%20%CE%9A%CF%89%CE%B4%CE%B9%CE%BA%CF%8C%CF%82%20%CE%95%CE%B3%CE%BA%CE%B1%CF%84%CE%AC%CF%83%CF%84%CE%B1%CF%83%CE%B7%CF%82).**
+3. **Για να λάβεις τον κωδικό εγκατάστασης, στείλε μήνυμα στο ( κωδικό εγκατάστασης ) [tsopy274@gmail.com](mailto:tsopy274@gmail.com?subject=PDF-Tsopy%20-%20%CE%9A%CF%89%CE%B4%CE%B9%CE%BA%CF%8C%CF%82%20%CE%95%CE%B3%CE%BA%CE%B1%CF%84%CE%AC%CF%83%CF%84%CE%B1%CF%83%CE%B7%CF%82).**
 4. Εκτέλεσε την εγκατάσταση και πληκτρολόγησε τον κωδικό που θα λάβεις.
 ---
 
